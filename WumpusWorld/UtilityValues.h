@@ -37,6 +37,10 @@ private:
 public:
 	double GetUtilityValue(UtilityCoordinate coordinate);
 
+	double GetMax(State state, Action action);
+
+	double GetMax(State state);
+
 	void SetUtilityValue(UtilityCoordinate coordinate, double value);
 
 };

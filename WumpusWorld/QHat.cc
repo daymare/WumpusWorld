@@ -105,6 +105,8 @@ QHat::~QHat()
 		with the given transition information according to the formula:
 		Q^(s, a) <-- alpha sub t -- r + gamma * max (a', Q^(s', a'))
 		where max finds the a' that maximizes the value of Q^
+		and alpha sub t is the learning rate, which should be any
+		function that begins at 1 and becomes zero as we approach infinity.
 		see documentation for more details.
 	inputs: transition information.
 	outputs: N/A
@@ -119,6 +121,46 @@ void QHat::Update(const Transition transition)
 {
 
 
+	int stateReward;
+	
+}
+
+/// private get functions
+
+/*
+
+	function: get max
+	description: get the maximum utility given that we were in the given state and took the given action.
+	inputs: state, action
+	outputs: utility value
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		currently just gets the value from the function in utilityValues with the same name.
+		TODO test.
+
+*/
+double QHat::GetMax(State state, Action action)
+{
+	return utility.GetMax(state, action);
+}
+
+/*
+
+	function: get max
+	description: get the maximum utility given that we are in the input state
+	inputs: state
+	outputs: maximum utility value
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO write definition.
+		TODO test.
+
+*/
+double QHat::GetMax(State state)
+{
+	return utility.GetMax(state);
 }
 
 /*
@@ -144,25 +186,17 @@ double QHat::CalculateAlpha(int T)
 
 /*
 
-function: Get Possible States
-description: gets the possible resulting states given a state action pair
-representing a state and an action the agent took in that state.
-inputs: state, action
-outputs: all possible resulting states from taking action in state
-remarks: Must deconstruct possible states.
-
-*/
-/*
-
 	function: get possible states
 	description: gets the possible resulting states given a state action
 		pair representing a state and an action the agent took in that
 		state.
 	inputs: state, action.
-	outputs: vector of all possible states.
+	outputs: vector of all possible states resulting from taking the given
+		action in the given state.
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
+		must deconstruct possible states.
 		TODO write definition.
 		TODO test.
 
@@ -269,3 +303,13 @@ vector<State> GetPossibleStates(State state, Action action)
 
 	return posStates;
 }
+
+vector<State> QHat::GetPossibleStates(State state);
+
+void SaveQHat(FILE* outFile);
+void LoadQHat(FILE* inFile);
+
+double QHat::GetValue(State state, Action action);
+void QHat::SetValue(State state, Action action, int value);
+void QHat::AddGame(vector<Transition> transitions);
+Action QHat::GetPI(State state);
