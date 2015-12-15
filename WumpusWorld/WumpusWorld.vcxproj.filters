@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{4bdd1e9d-cda8-498d-a67f-f9a694a736e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{97c94ca8-923d-4acf-95ed-7e0707f2d398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QLearning">
+      <UniqueIdentifier>{b2c6b06e-5f22-4204-b869-e8fe4bf6b6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agent">
+      <UniqueIdentifier>{cc7b0c89-1c1f-4d79-b74a-c7098df7506a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agent">
+      <UniqueIdentifier>{3eabeaca-5c4c-412b-944a-85df654af8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Log">
+      <UniqueIdentifier>{4d9fa547-ddb1-4996-a7ce-b335b6d9d362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{1af6e0a2-a616-4224-a667-017ed15d2519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QLearning">
+      <UniqueIdentifier>{9faac892-49fe-4a61-9a0a-031bf6f9b29f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Action.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Location.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Orientation.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Percept.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wumpsim.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WumpusWorld.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cc">
+      <Filter>Source Files\Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="QLearningAgent.cc">
+      <Filter>Source Files\Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomAgent.cc">
+      <Filter>Source Files\Agent</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayMath.cc">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Reward.cc">
+      <Filter>Source Files\QLearning</Filter>
+    </ClCompile>
+    <ClCompile Include="Tranistion.cc">
+      <Filter>Source Files\QLearning</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cc">
+      <Filter>Source Files\QLearning</Filter>
+    </ClCompile>
+    <ClCompile Include="QHat.cc">
+      <Filter>Source Files\QLearning</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityValues.cc">
+      <Filter>Source Files\QLearning</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Action.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Orientation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Percept.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wumpsim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WumpusWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="QLearningAgent.h">
+      <Filter>Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomAgent.h">
+      <Filter>Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLogger.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceLogger.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayMath.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="QHat.h">
+      <Filter>Header Files\QLearning</Filter>
+    </ClInclude>
+    <ClInclude Include="Reward.h">
+      <Filter>Header Files\QLearning</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\QLearning</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Header Files\QLearning</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityValues.h">
+      <Filter>Header Files\QLearning</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+    <None Include="DefaultSave.qdat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DefaultLog.dat">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+    <Text Include="testworld.txt" />
+    <Text Include="debug.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

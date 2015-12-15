@@ -1,0 +1,47 @@
+﻿Build started 11/10/2015 7:55:17 PM.
+     1>Project "C:\Users\Day\Desktop\WumpusWorld\WumpusWorld\WumpusWorld.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt QHat.cc QLearningAgent.cc wumpsim.cc
+         QHat.cc
+     1>c:\users\day\desktop\wumpusworld\wumpusworld\qhat.cc(13): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+     1>c:\users\day\desktop\wumpusworld\wumpusworld\qhat.cc(57): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+     1>c:\users\day\desktop\wumpusworld\wumpusworld\qhat.cc(147): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\day\desktop\wumpusworld\wumpusworld\qhat.cc(148): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\day\desktop\wumpusworld\wumpusworld\qhat.cc(149): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         wumpsim.cc
+         QLearningAgent.cc
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Day\Desktop\WumpusWorld\Debug\WumpusWorld.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Day\Desktop\WumpusWorld\Debug\WumpusWorld.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Day\Desktop\WumpusWorld\Debug\WumpusWorld.lib" /MACHINE:X86 Debug\Action.obj
+         Debug\Agent.obj
+         Debug\ArrayMath.obj
+         Debug\Location.obj
+         Debug\Orientation.obj
+         Debug\Percept.obj
+         Debug\QHat.obj
+         Debug\QLearningAgent.obj
+         Debug\RandomAgent.obj
+         Debug\Reward.obj
+         Debug\State.obj
+         Debug\Tranistion.obj
+         Debug\wumpsim.obj
+         Debug\WumpusWorld.obj
+     1>QHat.obj : error LNK2019: unresolved external symbol "public: void __thiscall QHat::SaveQHat(struct _iobuf *)" (?SaveQHat@QHat@@QAEXPAU_iobuf@@@Z) referenced in function "public: __thiscall QHat::~QHat(void)" (??1QHat@@QAE@XZ)
+     1>QHat.obj : error LNK2019: unresolved external symbol "public: void __thiscall QHat::LoadQHat(struct _iobuf *)" (?LoadQHat@QHat@@QAEXPAU_iobuf@@@Z) referenced in function "public: __thiscall QHat::QHat(struct _iobuf *)" (??0QHat@@QAE@PAU_iobuf@@@Z)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: void __thiscall QHat::AddGame(class std::vector<class Transition,class std::allocator<class Transition> >)" (?AddGame@QHat@@QAEXV?$vector@VTransition@@V?$allocator@VTransition@@@std@@@std@@@Z) referenced in function "public: virtual void __thiscall QLearningAgent::GameOver(int,enum AgentStatus)" (?GameOver@QLearningAgent@@UAEXHW4AgentStatus@@@Z)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: enum Action __thiscall QHat::GetPI(class State)" (?GetPI@QHat@@QAE?AW4Action@@VState@@@Z) referenced in function "public: virtual enum Action __thiscall QLearningAgent::Process(class Percept &)" (?Process@QLearningAgent@@UAE?AW4Action@@AAVPercept@@@Z)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: __thiscall PerformanceLogger::PerformanceLogger(void)" (??0PerformanceLogger@@QAE@XZ) referenced in function "public: __thiscall QLearningAgent::QLearningAgent(void)" (??0QLearningAgent@@QAE@XZ)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: __thiscall PerformanceLogger::~PerformanceLogger(void)" (??1PerformanceLogger@@QAE@XZ) referenced in function "public: void * __thiscall PerformanceLogger::`scalar deleting destructor'(unsigned int)" (??_GPerformanceLogger@@QAEPAXI@Z)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: int __thiscall PerformanceLogger::FinishLogging(void)" (?FinishLogging@PerformanceLogger@@QAEHXZ) referenced in function "public: __thiscall QLearningAgent::~QLearningAgent(void)" (??1QLearningAgent@@QAE@XZ)
+     1>QLearningAgent.obj : error LNK2019: unresolved external symbol "public: int __thiscall PerformanceLogger::AddGame(int,int,int)" (?AddGame@PerformanceLogger@@QAEHHHH@Z) referenced in function "public: virtual void __thiscall QLearningAgent::GameOver(int,enum AgentStatus)" (?GameOver@QLearningAgent@@UAEXHW4AgentStatus@@@Z)
+     1>QLearningAgent.obj : error LNK2001: unresolved external symbol "private: static class QHat * QLearningAgent::Q" (?Q@QLearningAgent@@0PAVQHat@@A)
+     1>QLearningAgent.obj : error LNK2001: unresolved external symbol "private: static class PerformanceLogger * QLearningAgent::log" (?log@QLearningAgent@@0PAVPerformanceLogger@@A)
+     1>C:\Users\Day\Desktop\WumpusWorld\Debug\WumpusWorld.exe : fatal error LNK1120: 10 unresolved externals
+     1>Done Building Project "C:\Users\Day\Desktop\WumpusWorld\WumpusWorld\WumpusWorld.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:22.11
