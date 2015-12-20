@@ -18,7 +18,6 @@
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */
@@ -54,7 +53,6 @@ Logger::Logger(string _filepath)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */

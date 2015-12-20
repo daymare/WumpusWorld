@@ -117,7 +117,6 @@ void PerformanceLogger::Print(string message)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */
@@ -135,9 +134,7 @@ void PerformanceLogger::FinishLogging()
 
 	// average game score
 	summaryFile << "Average game score:\n";
-	//summaryFile << averageScore + "\n";
-	// TODO figure out how to convert from double to string
-
+	summaryFile << to_string(averageScore) + "\n";
 }
 
 /*

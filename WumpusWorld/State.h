@@ -14,8 +14,8 @@
 #include "Action.h"
 #include "Percept.h"
 
-#define MAX_X 2;
-#define MAX_Y 2;
+#define MAX_X 2
+#define MAX_Y 2
 
 using namespace std;
 
@@ -39,18 +39,18 @@ typedef bool History[2][2];
 class State {
 private:
 
-	int xPos;
-	int yPos;
-	Direction direction;
-	AgentStatus status;
-	bool hasArrow;
-	bool hasGold;
-	bool isStench;
-	bool isBreeze;
-	bool isGlitter;
-	bool hasScreamed;
+	int xPos = 1;
+	int yPos = 1;
+	Direction direction = Direction_Right;
+	AgentStatus status = AgentStatus_Alive;
+	bool hasArrow = false;
+	bool hasGold = false;
+	bool isStench = false;
+	bool isBreeze = false;
+	bool isGlitter = false;
+	bool hasScreamed = false;
 
-	History history;
+	History history = { 0 };
 
 	// helper functions for updating action
 	void Turn(bool right);

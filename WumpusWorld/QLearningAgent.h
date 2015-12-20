@@ -21,15 +21,15 @@
 
 #include "PerformanceLogger.h"
 
+using namespace std;
+
 
 class QLearningAgent : public Agent
 {
 private:
 	/// State information
-	// TODO change Q and log to be static.
-	// figure out how to make a class static in c++
-	QHat *Q;
-	PerformanceLogger *log;
+	static QHat *Q;
+	static PerformanceLogger *log;
 	int numRounds;
 
 	vector<Transition> transitionList;

@@ -11,6 +11,11 @@
 #include "QHat.h"
 #include "Reward.h"
 
+using namespace std;
+
+QHat *QLearningAgent::Q = new QHat();
+PerformanceLogger *QLearningAgent::log = new PerformanceLogger();
+
 /*
 
 	function: q learning agent (default constructor)
@@ -25,9 +30,15 @@
 */
 QLearningAgent::QLearningAgent()
 {
-	// initialize QHat
+	// initialize QHat and performance logger
 	Q = new QHat();
 	log = new PerformanceLogger();
+
+	// initialize game transition and state variables
+	currentTransition = new Transition();
+	lastTransition = new Transition();
+	lastState = new State();
+	currentState = new State();
 }
 
 /*
@@ -150,7 +161,6 @@ Action QLearningAgent::Process(Percept &percept)
 	preconditions: initialize 
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */

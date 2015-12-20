@@ -32,9 +32,11 @@ private:
 	// history value for 1, 1
 	// history value for 1, 2
 	// etc...
-	double utilityValues[2][2][4][3][2][2][2][2][2][2][6][2][2][2][2];
+	double utilityValues[2][2][4][3][2][2][2][2][2][2][6][2][2][2][2] = { 0 };
 
 public:
+	UtilityValues();
+
 	double GetUtilityValue(UtilityCoordinate coordinate);
 	void SetUtilityValue(UtilityCoordinate coordinate, double value);
 

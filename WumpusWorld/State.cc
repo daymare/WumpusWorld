@@ -28,8 +28,8 @@ using namespace std;
 */
 State::State()
 {
-	xPos = 0;
-	yPos = 0;
+	xPos = 1;
+	yPos = 1;
 	direction = Direction_Right;
 	status = AgentStatus_Alive;
 	hasArrow = true;
@@ -91,7 +91,7 @@ void State::MoveForward()
 	{
 	case Direction_Up:
 		yPos++;
-		yPos %= MAX_Y + 1;
+		yPos = min(yPos, MAX_Y);
 		break;
 	case Direction_Down:
 		yPos--;
@@ -103,7 +103,7 @@ void State::MoveForward()
 		break;
 	case Direction_Right:
 		xPos++;
-		xPos %= MAX_X + 1;
+		xPos = min(xPos, MAX_X);
 		break;
 	}
 }
@@ -213,7 +213,7 @@ void State::UpdateStatus(AgentStatus newStatus)
 */
 vector<State> State::GetPossibleStates(Action action)
 {
-	vector<State> posStates = *new vector<State>();
+	vector<State> *posStates = new vector<State>();
 	State newState;
 	
 	int statusIndex = 0;
@@ -227,7 +227,7 @@ vector<State> State::GetPossibleStates(Action action)
 		if (this->IsFacingWall())
 		{
 			// return just a copy of the input state
-			posStates.push_back(*this);
+			posStates->push_back(*this);
 			break;
 		}
 
@@ -235,7 +235,7 @@ vector<State> State::GetPossibleStates(Action action)
 		// get a copy of the state except one space forward
 		newState = *this;
 		newState.UpdateActionInfo(Action_GoForward);
-		posStates.push_back(newState);
+		posStates->push_back(newState);
 
 		// get all of the possible states given that we took a step forward.
 		
@@ -254,7 +254,7 @@ vector<State> State::GetPossibleStates(Action action)
 						newState.SetIsStench((bool)stenchIndex);
 						newState.SetIsGlitter((bool)glitterIndex);
 
-						posStates.push_back(newState);
+						posStates->push_back(newState);
 					}// TODO fix bug: heap is apparently corrupted around here.
 				}
 			}
@@ -264,19 +264,19 @@ vector<State> State::GetPossibleStates(Action action)
 	case Action_TurnLeft:
 		newState = *this;
 		newState.UpdateActionInfo(Action_TurnLeft);
-		posStates.push_back(newState);
+		posStates->push_back(newState);
 		break;
 
 	case Action_TurnRight:
 		newState = *this;
 		newState.UpdateActionInfo(Action_TurnRight);
-		posStates.push_back(newState);
+		posStates->push_back(newState);
 		break;
 
 	case Action_Grab:
 		if (!this->GetIsGlitter())
 		{
-			posStates.push_back(*this);
+			posStates->push_back(*this);
 			break;
 		}
 		else
@@ -286,14 +286,14 @@ vector<State> State::GetPossibleStates(Action action)
 			newState.SetHasGold(true);
 			newState.SetIsGlitter(false);
 
-			posStates.push_back(newState);
+			posStates->push_back(newState);
 			break;
 		}
 	case Action_Shoot:
 
 		newState = *this;
 		newState.SetHasArrow(false);
-		posStates.push_back(newState);
+		posStates->push_back(newState);
 
 		break;
 
@@ -301,18 +301,18 @@ vector<State> State::GetPossibleStates(Action action)
 
 		if (this->GetXPos() == 0 && this->GetYPos() == 0)
 		{
-			posStates.push_back(*this);
+			posStates->push_back(*this);
 		}
 
 		newState = *this;
 
 		newState.SetStatus(AgentStatus_LeftCave);
 
-		posStates.push_back(newState);
+		posStates->push_back(newState);
 		break;
 	}
 
-	return posStates;
+	return *posStates;
 }
 
 /*

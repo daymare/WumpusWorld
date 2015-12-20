@@ -44,6 +44,25 @@ UtilityCoordinate::UtilityCoordinate(State state, Action action)
 	this->action = action;
 }
 
+
+/*
+
+	function: utility values (default constructor)
+	description: initializes the utility values data structure to all zeros.
+	inputs: N/A
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks: 
+		TODO write definition
+		TODO test
+
+*/
+UtilityValues::UtilityValues()
+{
+	memset(&utilityValues, 0, sizeof(utilityValues));
+}
+
 /*
 
 	function: get utility value
@@ -74,7 +93,7 @@ double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
 	bool history21 = coordinate.state.GetHistory(2, 1);
 	bool history22 = coordinate.state.GetHistory(2, 2);
 
-	return utilityValues[x][y][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+	return utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
 }
 
 /*
@@ -129,7 +148,7 @@ double UtilityValues::GetMax(State state, Action action)
 	vector<State> possStates = state.GetPossibleStates(action);
 
 	// find the maximum utility value of the possible states.
-	UtilityCoordinate coordinate;
+	UtilityCoordinate coordinate = *new UtilityCoordinate();
 	coordinate.state = possStates.at(0);
 	coordinate.action = Action_GoForward;
 
@@ -153,6 +172,8 @@ double UtilityValues::GetMax(State state, Action action)
 			}
 		}
 	}
+
+	delete &possStates;
 
 	return max;
 }
