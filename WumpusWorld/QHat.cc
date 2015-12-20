@@ -16,11 +16,12 @@
 */
 QHat::QHat()
 {
+	// load from the default save file
 	FILE* inFile = fopen(DEFAULT_SAVE_FILEPATH, "r");
-
 	LoadQHat(inFile);
-
 	fclose(inFile);
+
+	InitRandom();
 }
 
 /*
@@ -46,10 +47,12 @@ input: learning rate, gamma
 */
 QHat::QHat(double _learningRate, double _gamma)
 {
+	// create a new qhat
 	memset(&utility, 0, sizeof(UtilityValues));
-
 	learningRate = _learningRate;
 	gamma = _gamma;
+
+	InitRandom();
 }
 
 /*
@@ -75,6 +78,8 @@ QHat::QHat(double _learningRate, double _gamma)
 QHat::QHat(FILE* loadFile)
 {
 	LoadQHat(loadFile);
+
+	InitRandom();
 }
 
 /*
@@ -98,12 +103,18 @@ QHat::~QHat()
 	fclose(outFile);
 }
 
+void QHat::InitRandom()
+{
+	srand((unsigned int)time(NULL));
+}
+
 /*
 
 	function: update
 	description: updates the state action pair in the utility values
 		with the given transition information according to the formula:
 		Q^(s, a) <-- alpha sub t -- r + gamma * max (a', Q^(s', a'))
+		Q^ = (1-alpha sub t)(Q^(s, a)) + (alpha sub t)(r + gamma * max (a', Q^(s', a')))
 		where max finds the a' that maximizes the value of Q^
 		and alpha sub t is the learning rate, which should be any
 		function that begins at 1 and becomes zero as we approach infinity.
@@ -113,19 +124,38 @@ QHat::~QHat()
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */
 void QHat::Update(const Transition transition)
 {
-
+	double currentValue; // (Q^(s, a)
+	double currentMultiplier; // (1-alpha sub t)
+	double newInfoMultiplier; // (alpha sub t)
+	double newInfoValue; // (r + gamma * max (a', Q^(s', a')))
 
 	int stateReward;
-	
+	double max;
+
+	State transitionState = transition.initialState;
+	Action transitionAction = transition.actionTaken;
+
+	double updatedValue;
+
+	// calculate all the things
+	stateReward = transition.reward;
+	max = GetMax(transitionState, transitionAction);
+
+	currentValue = GetValue(transitionState, transitionAction);
+	newInfoMultiplier = CalculateAlpha(tValue);
+	currentMultiplier = 1.0 - newInfoMultiplier;
+	newInfoValue = stateReward + (gamma * max);
+
+	updatedValue = currentValue * currentMultiplier + newInfoValue * newInfoMultiplier;
+
+	SetValue(transitionState, transitionAction, updatedValue);
 }
 
-/// private get functions
 
 /*
 
@@ -178,6 +208,7 @@ double QHat::GetMax(State state)
 */
 double QHat::CalculateAlpha(int T)
 {
+/// private get functions
 	double x = T * learningRate;
 	double a = 1.0 / x;
 
@@ -186,130 +217,159 @@ double QHat::CalculateAlpha(int T)
 
 /*
 
-	function: get possible states
-	description: gets the possible resulting states given a state action
-		pair representing a state and an action the agent took in that
-		state.
-	inputs: state, action.
-	outputs: vector of all possible states resulting from taking the given
-		action in the given state.
+	function: save qhat
+	description: saves the current values of the utility function
+		and qhat variables to the given file
+	inputs: file to write to
+	outputs: N/A
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		must deconstruct possible states.
 		TODO write definition.
 		TODO test.
 
 */
-vector<State> GetPossibleStates(State state, Action action)
+void QHat::SaveQHat(FILE* outFile)
+{}
+
+/*
+
+	function: load qhat
+	description: loads qhat from a file.
+	inputs: file to load from.
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO write definition.
+		TODO test.
+
+*/
+void QHat::LoadQHat(FILE* inFile)
+{}
+
+double QHat::GetValue(State state, Action action)
 {
-	vector<State> posStates = *new vector<State>();
-	State newState;
-	
-	int statusIndex = 0;
-	int breezeIndex = 0;
-	int stenchIndex = 0;
-	int glitterIndex = 0;
+	UtilityCoordinate coordinate;
+	coordinate.action = action;
+	coordinate.state = state;
 
-	switch (action)
-	{
-	case Action_GoForward:
-		if (state.IsFacingWall())
-		{
-			// return just a copy of the input state
-			posStates.push_back(state);
-			break;
-		}
-
-		// not facing a wall
-		// get a copy of the state except one space forward
-		newState = state;
-		newState.UpdateActionInfo(Action_GoForward);
-		posStates.push_back(newState);
-
-		// get all of the possible states
-		
-		newState.UpdateActionInfo(Action_GoForward);
-
-		for (statusIndex = 0; statusIndex < 2; statusIndex++)
-		{
-			for (breezeIndex = 0; breezeIndex < 2; breezeIndex++)
-			{
-				for (stenchIndex = 0; stenchIndex < 2; stenchIndex++)
-				{
-					for (glitterIndex = 0; glitterIndex < 2; glitterIndex++)
-					{
-						newState.SetStatus((AgentStatus)statusIndex);
-						newState.SetIsBreeze((bool)breezeIndex);
-						newState.SetIsStench((bool)stenchIndex);
-						newState.SetIsGlitter((bool)glitterIndex);
-
-						posStates.push_back(newState);
-					}
-				}
-			}
-		}
-		break;
-
-	case Action_TurnLeft:
-		newState = state;
-		newState.UpdateActionInfo(Action_TurnLeft);
-		posStates.push_back(newState);
-		break;
-
-	case Action_TurnRight:
-		newState = state;
-		newState.UpdateActionInfo(Action_TurnRight);
-		posStates.push_back(newState);
-		break;
-
-	case Action_Grab:
-		if (!state.GetIsGlitter())
-		{
-			posStates.push_back(state);
-			break;
-		}
-
-		newState = state;
-
-		newState.SetHasGold(true);
-		newState.SetIsGlitter(false);
-
-		posStates.push_back(newState);
-		break;
-
-	case Action_Shoot:
-
-		newState = state;
-		newState.SetHasArrow(false);
-		posStates.push_back(newState);
-
-		break;
-
-	case Action_Climb:
-
-		if (state.GetXPos() == 0 && state.GetYPos() == 0)
-		{
-			posStates.push_back(state);
-		}
-
-		newState = state;
-
-		newState.SetStatus(AgentStatus_LeftCave);
-
-		posStates.push_back(newState);
-		break;
-	}
-
-	return posStates;
+	return utility.GetUtilityValue(coordinate);
 }
 
-vector<State> QHat::GetPossibleStates(State state);
+void QHat::SetValue(State state, Action action, double value)
+{
+	UtilityCoordinate coordinate;
+	coordinate.action = action;
+	coordinate.state = state;
 
-void SaveQHat(FILE* outFile);
-void LoadQHat(FILE* inFile);
+	utility.SetUtilityValue(coordinate, value);
+}
 
-double QHat::GetValue(State state, Action action);
-void QHat::SetValue(State state, Action action, int value);
-void QHat::AddGame(vector<Transition> transitions);
-Action QHat::GetPI(State state);
+/*
+
+	function: add game
+	description: adds a games information too the qhat function and increments t.
+	inputs: list of transitions that describe the game.
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
+
+*/
+void QHat::AddGame(vector<Transition> transitions)
+{
+	for (int i = 0; i < transitions.size(); i++)
+	{
+		Update (transitions.at(i));
+	}
+	IncrementT();
+}
+
+/*
+
+	function: increment t
+	description: increments the t value. Indicating that another game has been added to qhat.
+	inputs: N/A
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
+
+*/
+void QHat::IncrementT()
+{
+	tValue++;
+}
+
+/*
+
+	function: get pi
+	description: returns the best action according to our qhat function given the state we are in.
+		takes a random action with probability epsilon.
+	inputs: state the agent is in, probability that this function returns a random action.
+	outputs: Action to take. (Or a random action)
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		We want to take random actions every once and a while to ensure that we visit every state
+		in the state space. There could always be a better way to do things.
+		TODO test.
+
+*/
+Action QHat::GetPI(State state, double epsilon)
+{
+	// find if we are taking a random action
+	double randNum = rand() % 1000;
+	randNum /= 1000;
+
+	if (randNum <= epsilon)
+	{
+		// return a random action
+		return (Action)(rand() % 6);
+	}
+	else
+	{
+		// otherwise find the best action and return it
+		double maxValue = GetMax(state, Action_GoForward);
+		Action maxAction = Action_GoForward;
+
+		for (int i = 1; i < NUM_ACTIONS; i++)
+		{
+			Action currentAction = (Action)i;
+			double currentValue = GetMax(state, currentAction);
+
+			if (currentValue > maxValue)
+			{
+				maxValue = currentValue;
+				maxAction = currentAction;
+			}
+		}
+
+		return maxAction;
+	}
+}
+
+/*
+
+	function: get pi
+	description: returns the best action according to our qhat function given the state we are in.
+		takes a random action with calculated probability epsilon. Epsilon is calculated based on
+		the tValue.
+	inputs: state the agent is in.
+	outputs: Best action according to our qhat function. (Or a random action)
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO write definition.
+		TODO test.
+
+*/
+Action QHat::GetPI(State state)
+{
+	double epsilon = 1 / tValue;
+
+	return GetPI(state, epsilon);
+}

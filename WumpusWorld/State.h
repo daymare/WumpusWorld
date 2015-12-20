@@ -65,6 +65,10 @@ public:
 	void UpdateActionInfo(Action action);
 	void UpdatePercept(Percept percept);
 	void UpdateStatus(AgentStatus newStatus);
+
+	// possible functions
+	vector<State> GetPossibleStates(Action action);
+	vector<State> GetPossibleStates();
 	
 	// status methods
 	bool IsFacingWall();

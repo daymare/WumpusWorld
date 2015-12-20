@@ -1,6 +1,6 @@
 /*
 
-Class implementing Utility Estimate function
+	Class implementing Utility Estimate function
 
 */
 
@@ -15,6 +15,8 @@ Class implementing Utility Estimate function
 
 #include <vector>
 #include <string.h>
+#include <random>
+#include <time.h>
 
 #include "Action.h"
 #include "State.h"
@@ -30,7 +32,7 @@ private:
 	/// state information
 
 	double learningRate;
-	double gamma;
+	double gamma; // discount of future reward.
 	double tValue;
 
 	UtilityValues utility;
@@ -39,11 +41,11 @@ private:
 	void Update(const Transition transition);
 	double CalculateAlpha(int T);
 
+	void InitRandom();
+
 	// private get functions
 	double GetMax(State state, Action action);
 	double GetMax(State state);
-	vector<State> GetPossibleStates(State state, Action action);
-	vector<State> GetPossibleStates(State state);
 
 public:
 	QHat(); // load from default file
@@ -55,9 +57,11 @@ public:
 	void LoadQHat(FILE* inFile);
 
 	double GetValue(State state, Action action);
-	void SetValue(State state, Action action, int value);
+	void SetValue(State state, Action action, double value);
 	void AddGame(vector<Transition> transitions);
-	Action GetPI(State state); // solves Pi^... didn't want to make a whole new class for Pi^.
+	void IncrementT();
+	Action GetPI(State state);
+	Action GetPI(State state, double epsilon); // solves Pi^... didn't want to make a whole new class for Pi^.
 };
 
 

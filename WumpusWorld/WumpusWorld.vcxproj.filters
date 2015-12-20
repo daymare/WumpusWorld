@@ -84,6 +84,15 @@
     <ClCompile Include="UtilityValues.cc">
       <Filter>Source Files\QLearning</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cc">
+      <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLogger.cc">
+      <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceLogger.cc">
+      <Filter>Source Files\Log</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">

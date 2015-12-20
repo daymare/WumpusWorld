@@ -130,6 +130,9 @@ Action QLearningAgent::Process(Percept &percept)
 	// update this round state information based on action
 	currentState->UpdateActionInfo(currentAction);
 	
+	// increment number of rounds we have had
+	numRounds++;
+
 	// output policy action
 	return currentAction;
 }
@@ -158,6 +161,7 @@ void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 
 	// complete last round transition information
 	int lastReward = GetReward(*currentState, lastTransition->actionTaken);
+	transitionList.push_back(*lastTransition);
 
 	// update Q^ with all of the transition information received from last game
 	Q->AddGame(transitionList);

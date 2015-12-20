@@ -26,8 +26,10 @@ class QLearningAgent : public Agent
 {
 private:
 	/// State information
-	static QHat *Q;
-	static PerformanceLogger *log;
+	// TODO change Q and log to be static.
+	// figure out how to make a class static in c++
+	QHat *Q;
+	PerformanceLogger *log;
 	int numRounds;
 
 	vector<Transition> transitionList;

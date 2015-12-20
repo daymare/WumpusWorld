@@ -1,31 +1,40 @@
 /*
 
-Logging the performance of our algorithms
+	file: PerformanceLogger.h
+	programmer: Daylan Kelting
+	description: file containing the performance logger class.
+		the performance logger is for logging the change in performance of our agents over time.
 
 */
 
 #ifndef PERFORMANCE_LOGGER_H
 #define PERFORMANCE_LOGGER_H
 
+#define DEFAULT_PERFORMANCE_LOG_FILEPATH "performance.txt"
+#define DEFAULT_SUMMARY_LOG_FILEPATH "performanceSummary.txt"
+
+#define GAMES_PER_LOG 2
 
 #include <string>
-#include <stdio.h>
+#include <iostream>
+#include <fstream>
 
 #include "Logger.h"
 
 using namespace std;
 
-class PerformanceLogger : public Logger
+class PerformanceLogger
 {
 private:
-	const int GAMES_PER_LOG;
 	int gamesSinceLastLog;
 	int totalGameTime;
 	int numGames;
 	int sumGameScores;
 
 	string performanceFilepath;
-	FILE* performanceFile;
+	ofstream performanceFile;
+	string summaryFilepath;
+	ofstream summaryFile;
 
 public:
 	PerformanceLogger();
@@ -33,11 +42,11 @@ public:
 	PerformanceLogger(string _summaryFilepath, string _performanceFilepath);
 	~PerformanceLogger();
 
-	int Print(string message);
+	void Print(string message);
 
-	int FinishLogging();
+	void FinishLogging();
 
-	int AddGame(int gameTime, int score, int numMoves);
+	void AddGame(int gameTime, int score, int numMoves);
 
 };
 

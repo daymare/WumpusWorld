@@ -1,6 +1,8 @@
 /*
 
-abstract base class for loggers
+	file: Logger.h
+	programmer: Daylan Kelting
+	description: file containing the abstract logger class.
 
 */
 
@@ -8,26 +10,26 @@ abstract base class for loggers
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#define DEFAULT_LOG_FILEPATH "someLog.txt"
+
 #include <string>
-#include <stdio.h>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 class Logger
 {
-private:
+protected:
 	string filepath;
-	FILE* outFile;
+	ofstream outFile;
 
 public:
 	Logger();
 	Logger(string _filepath);
 	~Logger();
-	virtual int Print(string message);
+	virtual void Print(string message);
 };
-
-
-
 
 #endif
 

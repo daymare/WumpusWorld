@@ -22,9 +22,12 @@
     <ClCompile Include="Action.cc" />
     <ClCompile Include="Agent.cc" />
     <ClCompile Include="ArrayMath.cc" />
+    <ClCompile Include="DebugLogger.cc" />
     <ClCompile Include="Location.cc" />
+    <ClCompile Include="Logger.cc" />
     <ClCompile Include="Orientation.cc" />
     <ClCompile Include="Percept.cc" />
+    <ClCompile Include="PerformanceLogger.cc" />
     <ClCompile Include="QHat.cc" />
     <ClCompile Include="QLearningAgent.cc" />
     <ClCompile Include="RandomAgent.cc" />

@@ -1,6 +1,8 @@
 /*
 
-Logging and printing debug information to the console and files.
+	file: DebugLogger.h
+	programmer: Daylan Kelting
+	description: file containing the debug logger class. The purpose of which is hopefully obvious to you.
 
 */
 
@@ -10,9 +12,10 @@ Logging and printing debug information to the console and files.
 
 #define DEFAULT_DEBUG_FILEPATH "debug.txt"
 
+#define DEBUG_ON_CONSOLE
 
 #include <string>
-#include <stdio.h>
+#include <iostream>
 
 #include "Logger.h"
 
@@ -21,10 +24,9 @@ using namespace std;
 class DebugLogger : public Logger
 {
 public:
-	int Print(string message) override;
-	int PrintNoConsole(string message);
+	DebugLogger();
+	void Print(string message) override;
 };
-
 
 
 #endif

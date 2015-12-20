@@ -110,3 +110,79 @@ void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
 
 	utilityValues[x][y][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
 }
+
+/*
+
+	function: get max
+	description: gets the maximum utility value of the next state given the action that was taken in the previous state.
+	inputs: state, action taken in that state.
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
+
+*/
+double UtilityValues::GetMax(State state, Action action)
+{
+	// get the possible states
+	vector<State> possStates = state.GetPossibleStates(action);
+
+	// find the maximum utility value of the possible states.
+	UtilityCoordinate coordinate;
+	coordinate.state = possStates.at(0);
+	coordinate.action = Action_GoForward;
+
+	double max = GetUtilityValue(coordinate);
+	double current = 0.0;
+
+	// index through all possible states
+	for (int stateIndex = 0; stateIndex < possStates.size(); stateIndex++)
+	{
+		coordinate.state = possStates.at(stateIndex);
+		
+		// and all possible actions for those states
+		for (int actionIndex = 0; actionIndex < NUM_ACTIONS; actionIndex++)
+		{
+			coordinate.action = (Action)actionIndex;
+			current = GetUtilityValue(coordinate);
+
+			if (current > max)
+			{
+				max = current;
+			}
+		}
+	}
+
+	return max;
+}
+
+/*
+
+	function: get max
+	description: gets the maximum utility value of the given state.
+	inputs: state
+	outputs: maximum utility value of the given state.
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
+
+*/
+double UtilityValues::GetMax(State state)
+{
+	double max = GetMax(state, Action_GoForward);
+	double current = 0.0;
+
+	for (int actionIndex = 1; actionIndex < NUM_ACTIONS; actionIndex++)
+	{
+		current = GetMax(state, (Action)actionIndex);
+
+		if (current > max)
+		{
+			max = current;
+		}
+	}
+
+	return max;
+}

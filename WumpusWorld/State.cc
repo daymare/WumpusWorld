@@ -30,7 +30,7 @@ State::State()
 {
 	xPos = 0;
 	yPos = 0;
-	direction = Direction_Up;
+	direction = Direction_Right;
 	status = AgentStatus_Alive;
 	hasArrow = true;
 	hasGold = false;
@@ -39,6 +39,73 @@ State::State()
 	isGlitter = false;
 	hasScreamed = false;
 	memset(&history, 0, sizeof(History));
+}
+
+/*
+
+function: turn
+description: updates the state to reflect turning either left or right
+inputs: boolean to tell if we are turning right. (true = right, false = left);
+outputs: N/A
+preconditions: N/A
+postconditions: N/A
+remarks:
+TODO test.
+
+*/
+void State::Turn(bool right)
+{
+	int iDirection;
+	iDirection = (int)direction;
+
+	if (right)
+	{
+		iDirection++;
+		iDirection %= 4;
+	}
+	else
+	{
+		iDirection--;
+		iDirection = iDirection >= 0 ? iDirection : 3;
+	}
+	direction = (Direction)iDirection;
+}
+
+/*
+
+function: move forward
+description: updates the state to reflect moving forward
+in the direction facing by one space.
+inputs: N/A
+outputs: N/A
+preconditions: N/A
+postconditions: N/A
+remarks:
+TODO write definition.
+TODO test.
+
+*/
+void State::MoveForward()
+{
+	switch (direction)
+	{
+	case Direction_Up:
+		yPos++;
+		yPos %= MAX_Y + 1;
+		break;
+	case Direction_Down:
+		yPos--;
+		yPos = max(yPos, 0);
+		break;
+	case Direction_Left:
+		xPos--;
+		xPos = max(xPos, 0);
+		break;
+	case Direction_Right:
+		xPos++;
+		xPos %= MAX_X + 1;
+		break;
+	}
 }
 
 /*
@@ -130,69 +197,122 @@ void State::UpdateStatus(AgentStatus newStatus)
 
 /*
 
-	function: turn
-	description: updates the state to reflect turning either left or right
-	inputs: boolean to tell if we are turning right. (true = right, false = left);
-	outputs: N/A
+	function: get possible states
+	description: gets the possible resulting states given a state action
+		pair representing a state and an action the agent took in that
+		state.
+	inputs: state, action.
+	outputs: vector of all possible states resulting from taking the given
+		action in the given state.
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
+		must deconstruct possible states.
 		TODO test.
 
 */
-void State::Turn(bool right)
+vector<State> State::GetPossibleStates(Action action)
 {
-	int iDirection;
-	iDirection = (int)iDirection;
+	vector<State> posStates = *new vector<State>();
+	State newState;
+	
+	int statusIndex = 0;
+	int breezeIndex = 0;
+	int stenchIndex = 0;
+	int glitterIndex = 0;
 
-	if (right)
+	switch (action)
 	{
-		iDirection++;
-		iDirection %= 4;
-	}
-	else
-	{
-		iDirection--;
-		iDirection = iDirection >= 0 ? iDirection : 3;
-	}
-	direction = (Direction)iDirection;
-}
+	case Action_GoForward:
+		if (this->IsFacingWall())
+		{
+			// return just a copy of the input state
+			posStates.push_back(*this);
+			break;
+		}
 
-/*
+		// not facing a wall
+		// get a copy of the state except one space forward
+		newState = *this;
+		newState.UpdateActionInfo(Action_GoForward);
+		posStates.push_back(newState);
 
-	function: move forward
-	description: updates the state to reflect moving forward
-		in the direction facing by one space.
-	inputs: N/A
-	outputs: N/A
-	preconditions: N/A
-	postconditions: N/A
-	remarks:
-		TODO write definition.
-		TODO test.
+		// get all of the possible states given that we took a step forward.
+		
+		newState.UpdateActionInfo(Action_GoForward);
 
-*/
-void State::MoveForward()
-{
-	switch (direction)
-	{
-	case Direction_Up:
-		yPos++;
-		yPos %= MAX_Y+1;
+		for (statusIndex = 0; statusIndex < 2; statusIndex++)
+		{
+			for (breezeIndex = 0; breezeIndex < 2; breezeIndex++)
+			{
+				for (stenchIndex = 0; stenchIndex < 2; stenchIndex++)
+				{
+					for (glitterIndex = 0; glitterIndex < 2; glitterIndex++)
+					{
+						newState.SetStatus((AgentStatus)statusIndex);
+						newState.SetIsBreeze((bool)breezeIndex);
+						newState.SetIsStench((bool)stenchIndex);
+						newState.SetIsGlitter((bool)glitterIndex);
+
+						posStates.push_back(newState);
+					}// TODO fix bug: heap is apparently corrupted around here.
+				}
+			}
+		}
 		break;
-	case Direction_Down:
-		yPos--;
-		yPos = max(yPos, 0);
+
+	case Action_TurnLeft:
+		newState = *this;
+		newState.UpdateActionInfo(Action_TurnLeft);
+		posStates.push_back(newState);
 		break;
-	case Direction_Left:
-		xPos--;
-		xPos = max(xPos, 0);
+
+	case Action_TurnRight:
+		newState = *this;
+		newState.UpdateActionInfo(Action_TurnRight);
+		posStates.push_back(newState);
 		break;
-	case Direction_Right:
-		xPos++;
-		xPos %= MAX_X+1;
+
+	case Action_Grab:
+		if (!this->GetIsGlitter())
+		{
+			posStates.push_back(*this);
+			break;
+		}
+		else
+		{
+			newState = *this;
+
+			newState.SetHasGold(true);
+			newState.SetIsGlitter(false);
+
+			posStates.push_back(newState);
+			break;
+		}
+	case Action_Shoot:
+
+		newState = *this;
+		newState.SetHasArrow(false);
+		posStates.push_back(newState);
+
+		break;
+
+	case Action_Climb:
+
+		if (this->GetXPos() == 0 && this->GetYPos() == 0)
+		{
+			posStates.push_back(*this);
+		}
+
+		newState = *this;
+
+		newState.SetStatus(AgentStatus_LeftCave);
+
+		posStates.push_back(newState);
 		break;
 	}
+
+	return posStates;
 }
 
 /*
