@@ -29,15 +29,15 @@ class QLearningAgent : public Agent
 private:
 	/// State information
 	static QHat *Q;
-	static PerformanceLogger *log;
+	PerformanceLogger log; // TODO make log static again.
 	int numRounds;
 
 	vector<Transition> transitionList;
-	Transition *currentTransition;
-	Transition *lastTransition;
+	Transition currentTransition;
+	Transition lastTransition;
 
-	State *lastState;
-	State *currentState;
+	State lastState;
+	State currentState;
 
 	Action lastAction;
 	Action currentAction;

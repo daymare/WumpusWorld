@@ -21,8 +21,6 @@
 
 #include "Logger.h"
 
-using namespace std;
-
 class PerformanceLogger
 {
 private:
@@ -37,6 +35,7 @@ private:
 	ofstream summaryFile;
 
 public:
+
 	PerformanceLogger();
 	PerformanceLogger(string _summaryFilepath);
 	PerformanceLogger(string _summaryFilepath, string _performanceFilepath);

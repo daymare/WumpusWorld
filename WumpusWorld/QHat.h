@@ -14,9 +14,11 @@
 #define DEFAULT_SAVE_FILEPATH "DefaultSave.qdat"
 
 #include <vector>
-#include <string.h>
+#include <string>
 #include <random>
 #include <time.h>
+#include <fstream>
+#include <iostream>
 
 #include "Action.h"
 #include "State.h"
@@ -24,16 +26,17 @@
 #include "UtilityValues.h"
 
 
-using namespace std;
+#define DEFAULT_LEARNING_RATE 0.1
+#define DEFAULT_GAMMA 0.01
 
 class QHat
 {
 private:
 	/// state information
 
-	double learningRate;
-	double gamma; // discount of future reward.
-	double tValue;
+	double learningRate = DEFAULT_LEARNING_RATE;
+	double gamma = DEFAULT_GAMMA; // discount of future reward.
+	double tValue = 1;
 
 	UtilityValues utility;
 
@@ -48,13 +51,14 @@ private:
 	double GetMax(State state);
 
 public:
+
 	QHat(); // load from default file
 	QHat(double _learningRate, double _gamma); // initialize to nothing
 	QHat(FILE* loadFile); // load from a file
 	~QHat();
 
-	void SaveQHat(FILE* outFile);
-	void LoadQHat(FILE* inFile);
+	void SaveQHat(ofstream outFile);
+	void LoadQHat(ifstream inFile);
 
 	double GetValue(State state, Action action);
 	void SetValue(State state, Action action, double value);

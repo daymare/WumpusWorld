@@ -63,7 +63,7 @@ int main (int argc, char *argv[])
 		i++;
 	}
 
-	// override command line arguments
+	// override command line arguments for learning agents
 	worldSize = 2;
 	numTrials = 100;
 	numTries = 1;
@@ -103,15 +103,15 @@ int main (int argc, char *argv[])
 		}
 
 		//wumpusWorld->Write (".world");
-		agent = new QLearningAgent ();
 		trialScore = 0;
+
 		for (int tries = 1; tries <= numTries; tries++)
 		{
 			wumpusWorld->Initialize();
 			agent->Initialize ();
 			numMoves = 0;
 			cout << "Trial " << trial << ", Try " << tries << " begin" << endl << endl;
-			while ((! wumpusWorld->GameOver()) && (numMoves < MAX_MOVES_PER_GAME))
+			while ((!wumpusWorld->GameOver()) && (numMoves < MAX_MOVES_PER_GAME))
 			{
 				wumpusWorld->Print();
 				percept = wumpusWorld->GetPercept();

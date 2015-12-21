@@ -2,6 +2,8 @@
 
 #include "QHat.h"
 
+using namespace std;
+
 /*
 
 	function: Q Hat (default constructor)
@@ -17,9 +19,10 @@
 QHat::QHat()
 {
 	// load from the default save file
-	FILE* inFile = fopen(DEFAULT_SAVE_FILEPATH, "r");
+	ifstream inFile;
+	inFile.open(DEFAULT_SAVE_FILEPATH);
 	LoadQHat(inFile);
-	fclose(inFile);
+	inFile.close();
 
 	InitRandom();
 }
@@ -140,7 +143,7 @@ void QHat::Update(const Transition transition)
 	State transitionState = transition.initialState;
 	Action transitionAction = transition.actionTaken;
 
-	double updatedValue;
+	double updatedValue = 0.0;
 
 	// calculate all the things
 	stateReward = transition.reward;
@@ -184,7 +187,6 @@ double QHat::GetMax(State state, Action action)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */
@@ -202,15 +204,13 @@ double QHat::GetMax(State state)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */
 double QHat::CalculateAlpha(int T)
 {
-/// private get functions
 	double x = T * learningRate;
-	double a = 1.0 / x;
+	double a = 1.0 / (1.0 + x);
 
 	return a;
 }
@@ -229,8 +229,14 @@ double QHat::CalculateAlpha(int T)
 		TODO test.
 
 */
-void QHat::SaveQHat(FILE* outFile)
-{}
+void QHat::SaveQHat(ofstream outFile)
+{
+	outFile << to_string(learningRate) + "\n";
+	outFile << to_string(gamma) + "\n";
+	outFile << to_string(tValue) + "\n";
+
+	utility.SaveUtilityValues(outFile);
+}
 
 /*
 
@@ -245,7 +251,7 @@ void QHat::SaveQHat(FILE* outFile)
 		TODO test.
 
 */
-void QHat::LoadQHat(FILE* inFile)
+void QHat::LoadQHat(ifstream inFile)
 {}
 
 double QHat::GetValue(State state, Action action)
@@ -319,7 +325,7 @@ void QHat::IncrementT()
 		TODO test.
 
 */
-Action QHat::GetPI(State state, double epsilon)
+Action QHat::GetPI(const State state, double epsilon)
 {
 	// find if we are taking a random action
 	double randNum = rand() % 1000;
@@ -363,7 +369,6 @@ Action QHat::GetPI(State state, double epsilon)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition.
 		TODO test.
 
 */

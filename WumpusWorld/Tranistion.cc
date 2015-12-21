@@ -20,8 +20,8 @@ Transition::Transition(State state, Action action)
 }
 
 
-void Transition::FinishTransitionInformation(int reward, State state)
+void Transition::FinishTransitionInformation(int _reward, State state)
 {
-	reward = reward;
+	reward = _reward;
 	resultantState = state;
 }

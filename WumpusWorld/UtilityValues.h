@@ -9,6 +9,10 @@
 #ifndef UTILITYVALUES_H
 #define UTILITYVALUES_H
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
 #include "State.h"
 #include "Action.h"
 
@@ -18,6 +22,7 @@ public:
 	State state = *new State();
 	Action action = Action_GoForward;
 
+	// constructors
 	UtilityCoordinate();
 	UtilityCoordinate(State state, Action action);
 };
@@ -37,11 +42,17 @@ private:
 public:
 	UtilityValues();
 
+	// accessor methods
 	double GetUtilityValue(UtilityCoordinate coordinate);
 	void SetUtilityValue(UtilityCoordinate coordinate, double value);
 
+	// get max methods
 	double GetMax(State state, Action action);
 	double GetMax(State state);
+
+	// file methods
+	void SaveUtilityValues(ofstream outFile);
+	void LoadUtilityValues(ifstream inFile);
 };
 
 #endif

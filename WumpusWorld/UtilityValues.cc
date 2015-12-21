@@ -127,7 +127,7 @@ void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
 	bool history21 = coordinate.state.GetHistory(2, 1);
 	bool history22 = coordinate.state.GetHistory(2, 2);
 
-	utilityValues[x][y][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
+	utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
 }
 
 /*
@@ -173,8 +173,6 @@ double UtilityValues::GetMax(State state, Action action)
 		}
 	}
 
-	delete &possStates;
-
 	return max;
 }
 
@@ -207,3 +205,26 @@ double UtilityValues::GetMax(State state)
 
 	return max;
 }
+
+/*
+
+	function: save utility values
+	description: saves the array of utility values to the given file.
+	inputs: file to save utility values to.
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test
+
+*/
+void UtilityValues::SaveUtilityValues(ofstream outFile)
+{
+	for each (double value in utilityValues)
+	{
+		outFile << to_string(value) + "\n";
+	}
+}
+
+void UtilityValues::LoadUtilityValues(ifstream inFile)
+{}

@@ -1,6 +1,8 @@
 /*
 
-See State.h
+	file: State.cc
+	programmer: Daylan Kelting
+	description: Contains all of the definitions for functions in the state class
 
 */
 
@@ -43,14 +45,14 @@ State::State()
 
 /*
 
-function: turn
-description: updates the state to reflect turning either left or right
-inputs: boolean to tell if we are turning right. (true = right, false = left);
-outputs: N/A
-preconditions: N/A
-postconditions: N/A
-remarks:
-TODO test.
+	function: turn
+	description: updates the state to reflect turning either left or right
+	inputs: boolean to tell if we are turning right. (true = right, false = left);
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
 
 */
 void State::Turn(bool right)
@@ -73,16 +75,15 @@ void State::Turn(bool right)
 
 /*
 
-function: move forward
-description: updates the state to reflect moving forward
-in the direction facing by one space.
-inputs: N/A
-outputs: N/A
-preconditions: N/A
-postconditions: N/A
-remarks:
-TODO write definition.
-TODO test.
+	function: move forward
+	description: updates the state to reflect moving forward
+	in the direction facing by one space.
+	inputs: N/A
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
 
 */
 void State::MoveForward()
@@ -95,11 +96,11 @@ void State::MoveForward()
 		break;
 	case Direction_Down:
 		yPos--;
-		yPos = max(yPos, 0);
+		yPos = max(yPos, 1);
 		break;
 	case Direction_Left:
 		xPos--;
-		xPos = max(xPos, 0);
+		xPos = max(xPos, 1);
 		break;
 	case Direction_Right:
 		xPos++;
@@ -159,15 +160,14 @@ void State::UpdateActionInfo(Action action)
 
 /*
 
-function: update percept (perception information)
-description: updates the state perception information
-inputs: perception info (what our agent can sense)
-outputs: N/A
-preconditions: N/A
-postconditions: N/A
-remarks:
-TODO write definition.
-TODO test.
+	function: update percept (perception information)
+	description: updates the state perception information
+	inputs: perception info (what our agent can sense)
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
 
 */
 void State::UpdatePercept(Percept percept)
@@ -180,14 +180,14 @@ void State::UpdatePercept(Percept percept)
 
 /*
 
-function: update status
-description: updates the information about our agents status
-inputs: new status to update to
-outputs: N/A
-preconditions: N/A
-postconditions: N/A
-remarks:
-TODO test.
+	function: update status
+	description: updates the information about our agents status
+	inputs: new status to update to
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
 
 */
 void State::UpdateStatus(AgentStatus newStatus)
@@ -213,7 +213,7 @@ void State::UpdateStatus(AgentStatus newStatus)
 */
 vector<State> State::GetPossibleStates(Action action)
 {
-	vector<State> *posStates = new vector<State>();
+	vector<State> posStates(5);
 	State newState;
 	
 	int statusIndex = 0;
@@ -227,7 +227,7 @@ vector<State> State::GetPossibleStates(Action action)
 		if (this->IsFacingWall())
 		{
 			// return just a copy of the input state
-			posStates->push_back(*this);
+			posStates.push_back(*this);
 			break;
 		}
 
@@ -235,7 +235,7 @@ vector<State> State::GetPossibleStates(Action action)
 		// get a copy of the state except one space forward
 		newState = *this;
 		newState.UpdateActionInfo(Action_GoForward);
-		posStates->push_back(newState);
+		posStates.push_back(newState);
 
 		// get all of the possible states given that we took a step forward.
 		
@@ -254,7 +254,7 @@ vector<State> State::GetPossibleStates(Action action)
 						newState.SetIsStench((bool)stenchIndex);
 						newState.SetIsGlitter((bool)glitterIndex);
 
-						posStates->push_back(newState);
+						posStates.push_back(newState);
 					}// TODO fix bug: heap is apparently corrupted around here.
 				}
 			}
@@ -264,19 +264,19 @@ vector<State> State::GetPossibleStates(Action action)
 	case Action_TurnLeft:
 		newState = *this;
 		newState.UpdateActionInfo(Action_TurnLeft);
-		posStates->push_back(newState);
+		posStates.push_back(newState);
 		break;
 
 	case Action_TurnRight:
 		newState = *this;
 		newState.UpdateActionInfo(Action_TurnRight);
-		posStates->push_back(newState);
+		posStates.push_back(newState);
 		break;
 
 	case Action_Grab:
 		if (!this->GetIsGlitter())
 		{
-			posStates->push_back(*this);
+			posStates.push_back(*this);
 			break;
 		}
 		else
@@ -286,14 +286,14 @@ vector<State> State::GetPossibleStates(Action action)
 			newState.SetHasGold(true);
 			newState.SetIsGlitter(false);
 
-			posStates->push_back(newState);
+			posStates.push_back(newState);
 			break;
 		}
 	case Action_Shoot:
 
 		newState = *this;
 		newState.SetHasArrow(false);
-		posStates->push_back(newState);
+		posStates.push_back(newState);
 
 		break;
 
@@ -301,18 +301,18 @@ vector<State> State::GetPossibleStates(Action action)
 
 		if (this->GetXPos() == 0 && this->GetYPos() == 0)
 		{
-			posStates->push_back(*this);
+			posStates.push_back(*this);
 		}
 
 		newState = *this;
 
 		newState.SetStatus(AgentStatus_LeftCave);
 
-		posStates->push_back(newState);
+		posStates.push_back(newState);
 		break;
 	}
 
-	return *posStates;
+	return posStates;
 }
 
 /*
@@ -437,5 +437,6 @@ void State::SetHasScreamed(bool _hasScreamed)
 void State::SetHistory(int x, int y, bool value)
 {
 	// TODO change based on if we are using x y or array indexing
-	history[x - 1][y - 1] = value;
+	history[x - 1][y - 1] = value; // TODO access violation writing location
+	// x and y seem to be ridiculous values. Maybe not initialized?
 }

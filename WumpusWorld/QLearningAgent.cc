@@ -14,7 +14,6 @@
 using namespace std;
 
 QHat *QLearningAgent::Q = new QHat();
-PerformanceLogger *QLearningAgent::log = new PerformanceLogger();
 
 /*
 
@@ -31,14 +30,14 @@ PerformanceLogger *QLearningAgent::log = new PerformanceLogger();
 QLearningAgent::QLearningAgent()
 {
 	// initialize QHat and performance logger
-	Q = new QHat();
-	log = new PerformanceLogger();
+	// TODO initialize performance logger.
+	// also. Write the rest of performance logger.
 
 	// initialize game transition and state variables
-	currentTransition = new Transition();
-	lastTransition = new Transition();
-	lastState = new State();
-	currentState = new State();
+	currentTransition = Transition();
+	lastTransition = Transition();
+	lastState = State();
+	currentState = State();
 }
 
 /*
@@ -56,17 +55,8 @@ QLearningAgent::QLearningAgent()
 QLearningAgent::~QLearningAgent()
 {
 	// stop logging
-	log->FinishLogging();
-
-	// deconstruct QHat
-	delete Q;
-	delete log;
-
-	delete currentTransition;
-	delete lastTransition;
-	delete lastState;
-	delete currentState;
-}
+	log.FinishLogging();
+} 
 
 /*
 
@@ -84,10 +74,10 @@ QLearningAgent::~QLearningAgent()
 void QLearningAgent::Initialize() 
 {
 	transitionList = vector<Transition>();
-	currentTransition = new Transition();
-	lastTransition = new Transition();
-	lastState =  new State();
-	currentState = new State();
+	currentTransition = Transition();
+	lastTransition = Transition();
+	lastState =  State();
+	currentState = State();
 	numRounds = 0;
 	currentAction = Action_TurnRight;
 	lastAction = Action_TurnRight;
@@ -109,37 +99,36 @@ void QLearningAgent::Initialize()
 Action QLearningAgent::Process(Percept &percept)
 {
 	// generate this round state information
-	currentState->UpdatePercept(percept);
+	currentState.UpdatePercept(percept);
 
 	// calculate policy action based on state
-	currentAction = Q->GetPI(*currentState);
+	currentAction = Q->GetPI(currentState);
 
 	// initialize this round transition information
-	delete currentTransition;
-	currentTransition = new Transition(*currentState, currentAction);
+	currentTransition = Transition(currentState, currentAction);
 
 	// if this is not the first round
 	if (numRounds != 0)
 	{
 		// update the history to reflect that we have been at this location
-		int xPos = currentState->GetXPos();
-		int yPos = currentState->GetYPos();
+		int xPos = currentState.GetXPos();
+		int yPos = currentState.GetYPos();
 
-		currentState->SetHistory(xPos, yPos, true);
+		currentState.SetHistory(xPos, yPos, true); // TODO BUG state is uninitialized here sometimes
 
 		// calculate immediate reward for last transition
-		int reward = GetReward(*currentState, lastTransition->actionTaken);
+		int reward = GetReward(currentState, lastTransition.actionTaken);
 
 		// complete last round transition information
-		lastTransition->FinishTransitionInformation(reward, *currentState);
+		lastTransition.FinishTransitionInformation(reward, currentState);
 
 		// update transitions
-		transitionList.push_back(*lastTransition);
-		memcpy(&lastTransition, &currentTransition, sizeof(Transition));
+		transitionList.push_back(lastTransition);
+		memcpy(&lastTransition, &currentTransition, sizeof(Transition)); // TODO BUG potential heap corruption here
 	}
 
 	// update this round state information based on action
-	currentState->UpdateActionInfo(currentAction);
+	currentState.UpdateActionInfo(currentAction);
 	
 	// increment number of rounds we have had
 	numRounds++;
@@ -167,15 +156,15 @@ Action QLearningAgent::Process(Percept &percept)
 void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 {
 	// update state information
-	currentState->UpdateStatus(agentStatus);
+	currentState.UpdateStatus(agentStatus);
 
 	// complete last round transition information
-	int lastReward = GetReward(*currentState, lastTransition->actionTaken);
-	transitionList.push_back(*lastTransition);
+	int lastReward = GetReward(currentState, lastTransition.actionTaken);
+	transitionList.push_back(lastTransition);
 
 	// update Q^ with all of the transition information received from last game
 	Q->AddGame(transitionList);
 
 	// send game information to performance logger
-	log->AddGame(1, score, numRounds);
+	log.AddGame(1, score, numRounds);
 }

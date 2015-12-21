@@ -22,7 +22,8 @@
 */
 PerformanceLogger::PerformanceLogger()
 {
-	
+	performanceFilepath = DEFAULT_PERFORMANCE_LOG_FILEPATH;
+	summaryFilepath = DEFAULT_SUMMARY_LOG_FILEPATH;
 }
 
 /*
