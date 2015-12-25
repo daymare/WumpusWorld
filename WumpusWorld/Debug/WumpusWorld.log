@@ -1,17 +1,1 @@
-﻿  QHat.cc
-c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\time.h(35): warning C4820: '_timespec64': '4' bytes padding added after data member '_timespec64::tv_nsec'
-c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\time.h(42): warning C4820: 'timespec': '4' bytes padding added after data member 'timespec::tv_nsec'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\state.h(101): warning C4820: 'State': '2' bytes padding added after data member 'State::history'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.h(30): warning C4005: 'DEFAULT_GAMMA': macro redefinition
-  c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.h(12): note: see previous definition of 'DEFAULT_GAMMA'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(24): error C2280: 'std::basic_ifstream<char,std::char_traits<char>>::basic_ifstream(const std::basic_ifstream<char,std::char_traits<char>> &)': attempting to reference a deleted function
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\fstream(825): note: see declaration of 'std::basic_ifstream<char,std::char_traits<char>>::basic_ifstream'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(83): error C2664: 'void QHat::LoadQHat(std::ifstream)': cannot convert argument 1 from 'FILE *' to 'std::ifstream'
-  c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(83): note: Constructor for class 'std::basic_ifstream<char,std::char_traits<char>>' is declared 'explicit'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(104): error C2664: 'void QHat::SaveQHat(std::ofstream)': cannot convert argument 1 from 'FILE *' to 'std::ofstream'
-  c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(104): note: Constructor for class 'std::basic_ofstream<char,std::char_traits<char>>' is declared 'explicit'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(102): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(153): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(289): warning C4018: '<': signed/unsigned mismatch
-c:\users\dayla\desktop\programming\projects\wumpusworld\wumpusworld\qhat.cc(291): warning C4365: 'argument': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+﻿  WumpusWorld.vcxproj -> C:\Users\dayla\Desktop\Programming\Projects\WumpusWorld\Debug\WumpusWorld.exe

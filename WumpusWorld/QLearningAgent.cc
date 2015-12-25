@@ -14,6 +14,7 @@
 using namespace std;
 
 QHat *QLearningAgent::Q = new QHat();
+// TODO initialize performance logger.
 
 /*
 
@@ -29,9 +30,7 @@ QHat *QLearningAgent::Q = new QHat();
 */
 QLearningAgent::QLearningAgent()
 {
-	// initialize QHat and performance logger
-	// TODO initialize performance logger.
-	// also. Write the rest of performance logger.
+	// TODO change Q and Performance logger away from being static variables.
 
 	// initialize game transition and state variables
 	currentTransition = Transition();
@@ -56,6 +55,8 @@ QLearningAgent::~QLearningAgent()
 {
 	// stop logging
 	log.FinishLogging();
+
+	delete Q;
 } 
 
 /*
@@ -107,15 +108,15 @@ Action QLearningAgent::Process(Percept &percept)
 	// initialize this round transition information
 	currentTransition = Transition(currentState, currentAction);
 
+	// update history to reflect that we have been at this location
+	int xPos = currentState.GetXPos();
+	int yPos = currentState.GetYPos();
+	
+	currentState.SetHistory(xPos, yPos, true);
+
 	// if this is not the first round
 	if (numRounds != 0)
 	{
-		// update the history to reflect that we have been at this location
-		int xPos = currentState.GetXPos();
-		int yPos = currentState.GetYPos();
-
-		currentState.SetHistory(xPos, yPos, true); // TODO BUG state is uninitialized here sometimes
-
 		// calculate immediate reward for last transition
 		int reward = GetReward(currentState, lastTransition.actionTaken);
 
@@ -167,4 +168,26 @@ void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 
 	// send game information to performance logger
 	log.AddGame(1, score, numRounds);
+}
+
+/*
+
+	function: finish
+	description: save qhat
+	inputs: N/A
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		basically replaces our destructor. Not sure why our destructor is not getting called.
+		TODO figure out why the destructor is not getting called.
+		TODO test
+
+*/
+void QLearningAgent::Finish()
+{
+	ofstream outFile;
+	outFile.open(DEFAULT_SAVE_FILEPATH);
+	Q->SaveQHat(&outFile);
+	outFile.close();
 }

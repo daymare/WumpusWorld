@@ -15,6 +15,7 @@ public:
 	virtual void Initialize ();
 	virtual Action Process (Percept& percept);
 	virtual void GameOver (int score, AgentStatus agentStatus);
+	virtual void Finish();
 };
 
 #endif // AGENT_H

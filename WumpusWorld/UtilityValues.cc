@@ -65,69 +65,19 @@ UtilityValues::UtilityValues()
 
 /*
 
-	function: get utility value
-	description: gets the utility value at the particular coordinate
+	function: get size
+	description: returns the number of values the array of utility values can hold
 	inputs: N/A
-	outputs: N/A
+	outputs: the size of the utilityValues array.
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO test.
+		TODO test
 
 */
-double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
+int UtilityValues::GetSize()
 {
-	int x = coordinate.state.GetXPos();
-	int y = coordinate.state.GetYPos();
-	Direction dir = coordinate.state.GetDirection();
-	AgentStatus status = coordinate.state.GetStatus();
-	bool arrow = coordinate.state.GetHasArrow();
-	bool gold = coordinate.state.GetHasGold();
-	bool stench = coordinate.state.GetIsStench();
-	bool breeze = coordinate.state.GetIsBreeze();
-	bool glitter = coordinate.state.GetIsGlitter();
-	bool scream = coordinate.state.GetHasScreamed();
-	Action action = coordinate.action;
-	bool history11 = coordinate.state.GetHistory(1, 1);
-	bool history12 = coordinate.state.GetHistory(1, 2);
-	bool history21 = coordinate.state.GetHistory(2, 1);
-	bool history22 = coordinate.state.GetHistory(2, 2);
-
-	return utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
-}
-
-/*
-
-	function: set utility value
-	description: set the utility value in the utility coordinate to the input value
-	inputs: coordinate of index to set the value, value to set
-	outputs: N/A
-	preconditions: N/A
-	postconditions: N/A
-	remarks:
-		TODO write definition.
-		TODO test.
-
-*/
-void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
-{
-	int x = coordinate.state.GetXPos();
-	int y = coordinate.state.GetYPos();
-	Direction dir = coordinate.state.GetDirection();
-	AgentStatus status = coordinate.state.GetStatus();
-	bool arrow = coordinate.state.GetHasArrow();
-	bool gold = coordinate.state.GetHasGold();
-	bool stench = coordinate.state.GetIsStench();
-	bool breeze = coordinate.state.GetIsBreeze();
-	bool glitter = coordinate.state.GetIsGlitter();
-	bool scream = coordinate.state.GetHasScreamed();
-	Action action = coordinate.action;
-	bool history11 = coordinate.state.GetHistory(1, 1);
-	bool history12 = coordinate.state.GetHistory(1, 2);
-	bool history21 = coordinate.state.GetHistory(2, 1);
-	bool history22 = coordinate.state.GetHistory(2, 2);
-
-	utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
+	return sizeof(utilityValues) / sizeof(double);
 }
 
 /*
@@ -218,13 +168,118 @@ double UtilityValues::GetMax(State state)
 		TODO test
 
 */
-void UtilityValues::SaveUtilityValues(ofstream outFile)
+void UtilityValues::SaveUtilityValues(ofstream *outFile)
 {
 	for each (double value in utilityValues)
 	{
-		outFile << to_string(value) + "\n";
+		*outFile << to_string(value) + "\n";
 	}
 }
 
-void UtilityValues::LoadUtilityValues(ifstream inFile)
-{}
+/*
+
+	function: get utility value
+	description: gets the utility value at the particular coordinate
+	inputs: N/A
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO test.
+
+*/
+double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
+{
+	int x = coordinate.state.GetXPos();
+	int y = coordinate.state.GetYPos();
+	Direction dir = coordinate.state.GetDirection();
+	AgentStatus status = coordinate.state.GetStatus();
+	bool arrow = coordinate.state.GetHasArrow();
+	bool gold = coordinate.state.GetHasGold();
+	bool stench = coordinate.state.GetIsStench();
+	bool breeze = coordinate.state.GetIsBreeze();
+	bool glitter = coordinate.state.GetIsGlitter();
+	bool scream = coordinate.state.GetHasScreamed();
+	Action action = coordinate.action;
+	bool history11 = coordinate.state.GetHistory(1, 1);
+	bool history12 = coordinate.state.GetHistory(1, 2);
+	bool history21 = coordinate.state.GetHistory(2, 1);
+	bool history22 = coordinate.state.GetHistory(2, 2);
+
+	return utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+}
+
+/*
+
+	function: set utility value
+	description: set the utility value in the utility coordinate to the input value
+	inputs: coordinate of index to set the value, value to set
+	outputs: N/A
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO write definition.
+		TODO test.
+
+*/
+void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
+{
+	int x = coordinate.state.GetXPos();
+	int y = coordinate.state.GetYPos();
+	Direction dir = coordinate.state.GetDirection();
+	AgentStatus status = coordinate.state.GetStatus();
+	bool arrow = coordinate.state.GetHasArrow();
+	bool gold = coordinate.state.GetHasGold();
+	bool stench = coordinate.state.GetIsStench();
+	bool breeze = coordinate.state.GetIsBreeze();
+	bool glitter = coordinate.state.GetIsGlitter();
+	bool scream = coordinate.state.GetHasScreamed();
+	Action action = coordinate.action;
+	bool history11 = coordinate.state.GetHistory(1, 1);
+	bool history12 = coordinate.state.GetHistory(1, 2);
+	bool history21 = coordinate.state.GetHistory(2, 1);
+	bool history22 = coordinate.state.GetHistory(2, 2);
+
+	utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
+}
+
+/*
+
+	function: get start pointer
+	description: get the address of the first utilityValue
+	inputs: N/A
+	outputs: returns the address of the first utilityValue
+	preconditions: N/A
+	postconditions: N/A
+	remarks:
+		TODO write definition
+		TODO test
+
+*/
+double* UtilityValues::GetStartPtr()
+{
+	return &utilityValues[0][0][0][0][0][0][0][0][0][0][0][0][0][0][0];
+}
+
+/*
+
+	function: load utility values
+	description: load all utility values from the given file stream.
+	inputs: N/A
+	outputs: N/A
+	preconditions: saved utility values must have the same dimensions as the current utility values.
+	postconditions: N/A
+	remarks:
+		TODO test
+
+*/
+void UtilityValues::LoadUtilityValues(ifstream *inFile)
+{
+	int numValues = GetSize();
+	double* utilityPtr = GetStartPtr();
+
+	for (int i = 0; i < numValues; i++)
+	{
+		*inFile >> *(utilityPtr + i);
+	}
+}

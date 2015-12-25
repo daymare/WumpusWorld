@@ -14,6 +14,7 @@
 #include "QLearningAgent.h"
 #include "wumpsim.h"
 
+
 using namespace std;
 
 int main (int argc, char *argv[])
@@ -25,6 +26,10 @@ int main (int argc, char *argv[])
 	char* worldFile;
 	bool seedSet = false;
 	bool worldSet = false;
+
+	// set cout to fail state so it wont output anything.
+	// TODO change UI so we don't have to use this hack.
+	//cout.setstate(ios_base::failbit);
 
 	// Process command-line options
 	int i = 1;
@@ -65,7 +70,7 @@ int main (int argc, char *argv[])
 
 	// override command line arguments for learning agents
 	worldSize = 2;
-	numTrials = 100;
+	numTrials = 5000;
 	numTries = 1;
 	seedSet = false;
 	worldSet = false;
@@ -93,8 +98,22 @@ int main (int argc, char *argv[])
 	float averageScore;
 	int numMoves;
 
+	// print a loading indication.
+	printf("loading from file...\n");
+
+	agent = new QLearningAgent();
+
+	printf("Done loading\n");
+	printf("Starting training\n");
+
 	for (int trial = 1; trial <= numTrials; trial++)
 	{
+		// print an indication every 100 games
+		if (trial % 100 == 0)
+		{
+			printf("trial: %d\n", trial);
+		}
+
 		if (worldSet)
 		{
 			wumpusWorld = new WumpusWorld (worldFile);
@@ -127,13 +146,17 @@ int main (int argc, char *argv[])
 			trialScore = trialScore + score;
 			cout << "Trial " << trial << ", Try " << tries << " complete: Score = " << score << endl << endl;
 		}
-		delete agent;
 		delete wumpusWorld;
 		averageScore = ((float) trialScore) / ((float) numTries);
 		cout << "Trial " << trial << " complete: Average score for trial = " << averageScore << endl << endl;
 		totalScore = totalScore + trialScore;
 	}
-	averageScore = ((float) totalScore) / ((float) (numTrials * numTries));
+
+	printf("Saving to file\n");
+	agent->Finish();
+	delete agent;
+
+	averageScore = ((double) totalScore) / ((double) (numTrials * numTries));
 	cout << "All trials completed: Average score for all trials = " << averageScore << endl;
 	cout << "Thanks for playing!" << endl << endl;
 

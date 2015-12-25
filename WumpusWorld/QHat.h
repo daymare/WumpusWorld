@@ -54,11 +54,11 @@ public:
 
 	QHat(); // load from default file
 	QHat(double _learningRate, double _gamma); // initialize to nothing
-	QHat(FILE* loadFile); // load from a file
+	QHat(ifstream loadFile); // load from a file
 	~QHat();
 
-	void SaveQHat(ofstream outFile);
-	void LoadQHat(ifstream inFile);
+	void SaveQHat(ofstream *outFile);
+	void LoadQHat(ifstream *inFile);
 
 	double GetValue(State state, Action action);
 	void SetValue(State state, Action action, double value);

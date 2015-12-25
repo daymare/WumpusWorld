@@ -52,6 +52,7 @@ public:
 	void Initialize() override;
 	Action Process(Percept &percept) override;
 	void GameOver(int score, AgentStatus agentStatus) override;
+	void Finish();
 };
 
 #endif

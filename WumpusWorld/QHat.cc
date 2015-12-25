@@ -21,7 +21,7 @@ QHat::QHat()
 	// load from the default save file
 	ifstream inFile;
 	inFile.open(DEFAULT_SAVE_FILEPATH);
-	LoadQHat(inFile);
+	LoadQHat(&inFile);
 	inFile.close();
 
 	InitRandom();
@@ -78,9 +78,9 @@ QHat::QHat(double _learningRate, double _gamma)
 		TODO test.
 
 */
-QHat::QHat(FILE* loadFile)
+QHat::QHat(ifstream loadFile)
 {
-	LoadQHat(loadFile);
+	LoadQHat(&loadFile);
 
 	InitRandom();
 }
@@ -99,11 +99,10 @@ QHat::QHat(FILE* loadFile)
 */
 QHat::~QHat()
 {
-	FILE* outFile = fopen(DEFAULT_SAVE_FILEPATH, "w");
-
-	SaveQHat(outFile);
-
-	fclose(outFile);
+	ofstream outFile;
+	outFile.open(DEFAULT_SAVE_FILEPATH);
+	SaveQHat(&outFile);
+	outFile.close();
 }
 
 void QHat::InitRandom()
@@ -229,11 +228,11 @@ double QHat::CalculateAlpha(int T)
 		TODO test.
 
 */
-void QHat::SaveQHat(ofstream outFile)
+void QHat::SaveQHat(ofstream *outFile)
 {
-	outFile << to_string(learningRate) + "\n";
-	outFile << to_string(gamma) + "\n";
-	outFile << to_string(tValue) + "\n";
+	*outFile << to_string(learningRate) + "\n";
+	*outFile << to_string(gamma) + "\n";
+	*outFile << to_string(tValue) + "\n";
 
 	utility.SaveUtilityValues(outFile);
 }
@@ -251,8 +250,14 @@ void QHat::SaveQHat(ofstream outFile)
 		TODO test.
 
 */
-void QHat::LoadQHat(ifstream inFile)
-{}
+void QHat::LoadQHat(ifstream *inFile)
+{
+	*inFile >> learningRate;
+	*inFile >> gamma;
+	*inFile >> tValue;
+
+	utility.LoadUtilityValues(inFile);
+}
 
 double QHat::GetValue(State state, Action action)
 {
@@ -374,7 +379,7 @@ Action QHat::GetPI(const State state, double epsilon)
 */
 Action QHat::GetPI(State state)
 {
-	double epsilon = 1 / tValue;
+	double epsilon = 1 / (1 + (tValue * 0.000007)); // TODO replace with a constant
 
 	return GetPI(state, epsilon);
 }

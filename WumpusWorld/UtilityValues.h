@@ -19,7 +19,7 @@
 class UtilityCoordinate
 {
 public:
-	State state = *new State();
+	State state = State();
 	Action action = Action_GoForward;
 
 	// constructors
@@ -29,7 +29,7 @@ public:
 
 class UtilityValues
 {
-private:
+public:
 	// Array containing all state action pair values
 	// index order is as follows:
 	// xPos, yPos, direction, status, hasArrow, hasGold,
@@ -39,20 +39,25 @@ private:
 	// etc...
 	double utilityValues[2][2][4][3][2][2][2][2][2][2][6][2][2][2][2] = { 0 };
 
-public:
 	UtilityValues();
 
-	// accessor methods
-	double GetUtilityValue(UtilityCoordinate coordinate);
-	void SetUtilityValue(UtilityCoordinate coordinate, double value);
+	// utility Methods
+	int GetSize();
 
 	// get max methods
 	double GetMax(State state, Action action);
 	double GetMax(State state);
 
 	// file methods
-	void SaveUtilityValues(ofstream outFile);
-	void LoadUtilityValues(ifstream inFile);
+	void SaveUtilityValues(ofstream *outFile);
+	void LoadUtilityValues(ifstream *inFile);
+
+	// accessor methods
+	double* GetStartPtr();
+	double GetUtilityValue(UtilityCoordinate coordinate);
+	void SetUtilityValue(UtilityCoordinate coordinate, double value);
+
+	
 };
 
 #endif
