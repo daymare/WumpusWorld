@@ -103,7 +103,7 @@ double UtilityValues::GetMax(State state, Action action)
 	coordinate.action = Action_GoForward;
 
 	double max = GetUtilityValue(coordinate);
-	double current = 0.0;
+	double current = max;
 
 	// index through all possible states
 	for (int stateIndex = 0; stateIndex < possStates.size(); stateIndex++)
@@ -190,6 +190,8 @@ void UtilityValues::SaveUtilityValues(ofstream *outFile)
 */
 double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
 {
+	double value;
+
 	int x = coordinate.state.GetXPos();
 	int y = coordinate.state.GetYPos();
 	Direction dir = coordinate.state.GetDirection();
@@ -206,7 +208,9 @@ double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
 	bool history21 = coordinate.state.GetHistory(2, 1);
 	bool history22 = coordinate.state.GetHistory(2, 2);
 
-	return utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+	value = utilityValues[x - 1][y - 1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+
+	return value;
 }
 
 /*
@@ -243,6 +247,18 @@ void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
 	utilityValues[x-1][y-1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22] = value;
 }
 
+void UtilityValues::SetAllUtilityValues(double value)
+{
+	int numValues = GetSize();
+	double* utilityPtr = GetStartPtr();
+
+	for (int i = 0; i < numValues; i++)
+	{
+		*utilityPtr = value;
+		utilityPtr++;
+	}
+}
+
 /*
 
 	function: get start pointer
@@ -252,7 +268,6 @@ void UtilityValues::SetUtilityValue(UtilityCoordinate coordinate, double value)
 	preconditions: N/A
 	postconditions: N/A
 	remarks:
-		TODO write definition
 		TODO test
 
 */
@@ -274,7 +289,7 @@ double* UtilityValues::GetStartPtr()
 
 */
 void UtilityValues::LoadUtilityValues(ifstream *inFile)
-{
+ {
 	int numValues = GetSize();
 	double* utilityPtr = GetStartPtr();
 

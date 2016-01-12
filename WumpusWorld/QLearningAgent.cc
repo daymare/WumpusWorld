@@ -13,8 +13,19 @@
 
 using namespace std;
 
+
+// Initialize Qhat
+
+#ifdef NEW_QHAT_DESIRED
+// make a new qhat utility list
+QHat *QLearningAgent::Q = new QHat(0.000001, 0.8);
+#else
+// load the utility list from the file
 QHat *QLearningAgent::Q = new QHat();
-// TODO initialize performance logger.
+#endif
+
+
+PerformanceLogger *QLearningAgent::log = new PerformanceLogger();
 
 /*
 
@@ -54,7 +65,7 @@ QLearningAgent::QLearningAgent()
 QLearningAgent::~QLearningAgent()
 {
 	// stop logging
-	log.FinishLogging();
+	log->FinishLogging();
 
 	delete Q;
 } 
@@ -99,42 +110,31 @@ void QLearningAgent::Initialize()
 */
 Action QLearningAgent::Process(Percept &percept)
 {
-	// generate this round state information
 	currentState.UpdatePercept(percept);
 
 	// calculate policy action based on state
 	currentAction = Q->GetPI(currentState);
 
-	// initialize this round transition information
 	currentTransition = Transition(currentState, currentAction);
 
 	// update history to reflect that we have been at this location
 	int xPos = currentState.GetXPos();
 	int yPos = currentState.GetYPos();
-	
 	currentState.SetHistory(xPos, yPos, true);
 
-	// if this is not the first round
 	if (numRounds != 0)
 	{
-		// calculate immediate reward for last transition
 		int reward = GetReward(currentState, lastTransition.actionTaken);
-
-		// complete last round transition information
-		lastTransition.FinishTransitionInformation(reward, currentState);
+		lastTransition.CompleteTransitionInformation(reward, currentState);
 
 		// update transitions
 		transitionList.push_back(lastTransition);
 		memcpy(&lastTransition, &currentTransition, sizeof(Transition)); // TODO BUG potential heap corruption here
 	}
 
-	// update this round state information based on action
 	currentState.UpdateActionInfo(currentAction);
-	
-	// increment number of rounds we have had
 	numRounds++;
 
-	// output policy action
 	return currentAction;
 }
 
@@ -161,13 +161,14 @@ void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 
 	// complete last round transition information
 	int lastReward = GetReward(currentState, lastTransition.actionTaken);
+	lastTransition.reward = lastReward;
 	transitionList.push_back(lastTransition);
 
 	// update Q^ with all of the transition information received from last game
 	Q->AddGame(transitionList);
 
 	// send game information to performance logger
-	log.AddGame(1, score, numRounds);
+	log->AddGame(0, score, numRounds);
 }
 
 /*

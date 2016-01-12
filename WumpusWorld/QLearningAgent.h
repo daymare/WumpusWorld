@@ -24,12 +24,15 @@
 using namespace std;
 
 
+// uncomment if we want a new QHat file to be generated.
+// #define NEW_QHAT_DESIRED
+
 class QLearningAgent : public Agent
 {
 private:
 	/// State information
 	static QHat *Q;
-	PerformanceLogger log; // TODO make log static again.
+	static PerformanceLogger *log;
 	int numRounds;
 
 	vector<Transition> transitionList;

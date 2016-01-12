@@ -27,54 +27,15 @@ int main (int argc, char *argv[])
 	bool seedSet = false;
 	bool worldSet = false;
 
-	// set cout to fail state so it wont output anything.
-	// TODO change UI so we don't have to use this hack.
-	//cout.setstate(ios_base::failbit);
+	// tell cout to suppress output to speed up training.
+	cout.setstate(ios_base::failbit);
 
-	// Process command-line options
-	int i = 1;
-	while (i < argc)
-	{
-		if (strcmp (argv[i], "-size") == 0)
-		{
-			i++;
-			worldSize = atoi (argv[i]);
-			if (worldSize < 2)
-			{
-				worldSize = 2;
-			}
-		} else if (strcmp (argv[i], "-trials") == 0)
-		{
-			i++;
-			numTrials = atoi (argv[i]);
-		} else if (strcmp (argv[i], "-tries") == 0)
-		{
-			i++;
-			numTries = atoi (argv[i]);
-		} else if (strcmp (argv[i], "-seed") == 0)
-		{
-			i++;
-			seed = atoi (argv[i]);
-			seedSet = true;
-		} else if (strcmp (argv[i], "-world") == 0)
-		{
-			i++;
-			worldFile = argv[i];
-			worldSet = true;
-		} else {
-			cout << "unknown option " << argv[i] << endl;
-			exit (1);
-		}
-		i++;
-	}
-
-	// override command line arguments for learning agents
+	// set training parameters
 	worldSize = 2;
-	numTrials = 5000;
+	numTrials = 3000;
 	numTries = 1;
 	seedSet = false;
 	worldSet = false;
-
 
 	// Set random number generator seed
 	if (! seedSet)
@@ -95,7 +56,7 @@ int main (int argc, char *argv[])
 	int score;
 	int trialScore;
 	int totalScore = 0;
-	float averageScore;
+	double averageScore;
 	int numMoves;
 
 	// print a loading indication.
@@ -108,8 +69,8 @@ int main (int argc, char *argv[])
 
 	for (int trial = 1; trial <= numTrials; trial++)
 	{
-		// print an indication every 100 games
-		if (trial % 100 == 0)
+		// print an indication every 500 trials
+		if (trial % 500 == 0)
 		{
 			printf("trial: %d\n", trial);
 		}
@@ -160,6 +121,5 @@ int main (int argc, char *argv[])
 	cout << "All trials completed: Average score for all trials = " << averageScore << endl;
 	cout << "Thanks for playing!" << endl << endl;
 
-	system("pause");
 	return 0;
 }

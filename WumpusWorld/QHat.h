@@ -8,9 +8,6 @@
 #ifndef Q_HAT_H
 #define Q_HAT_H
 
-#define DEFAULT_LEARNING_RATE 0.1
-#define DEFAULT_GAMMA 0.1
-
 #define DEFAULT_SAVE_FILEPATH "DefaultSave.qdat"
 
 #include <vector>

@@ -22,7 +22,7 @@ public:
 	Transition();
 	Transition(State state, Action action);
 
-	void FinishTransitionInformation(int reward, State state);
+	void CompleteTransitionInformation(int reward, State state);
 	
 };
 

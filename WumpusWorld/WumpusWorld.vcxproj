@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="Action.cc" />
     <ClCompile Include="Agent.cc" />
-    <ClCompile Include="ArrayMath.cc" />
     <ClCompile Include="DebugLogger.cc" />
     <ClCompile Include="Location.cc" />
     <ClCompile Include="Logger.cc" />
@@ -41,7 +40,6 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
-    <ClInclude Include="ArrayMath.h" />
     <ClInclude Include="DebugLogger.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Logger.h" />

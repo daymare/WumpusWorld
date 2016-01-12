@@ -51,7 +51,9 @@ input: learning rate, gamma
 QHat::QHat(double _learningRate, double _gamma)
 {
 	// create a new qhat
-	memset(&utility, 0, sizeof(UtilityValues));
+	// set all values to something large and negative so the agent has
+	// incentive to try new actions
+	utility.SetAllUtilityValues(-1.0);
 	learningRate = _learningRate;
 	gamma = _gamma;
 
@@ -149,7 +151,7 @@ void QHat::Update(const Transition transition)
 	max = GetMax(transitionState, transitionAction);
 
 	currentValue = GetValue(transitionState, transitionAction);
-	newInfoMultiplier = CalculateAlpha(tValue);
+	newInfoMultiplier = CalculateAlpha((int)tValue);
 	currentMultiplier = 1.0 - newInfoMultiplier;
 	newInfoValue = stateReward + (gamma * max);
 
@@ -291,7 +293,7 @@ void QHat::SetValue(State state, Action action, double value)
 */
 void QHat::AddGame(vector<Transition> transitions)
 {
-	for (int i = 0; i < transitions.size(); i++)
+	for (int i = ((int)transitions.size())-1; i >= 0 ; i--)
 	{
 		Update (transitions.at(i));
 	}
@@ -379,7 +381,7 @@ Action QHat::GetPI(const State state, double epsilon)
 */
 Action QHat::GetPI(State state)
 {
-	double epsilon = 1 / (1 + (tValue * 0.000007)); // TODO replace with a constant
+	double epsilon = 1 / (1 + (tValue * 0.000007)); // TODO replace magic number with a constant
 
 	return GetPI(state, epsilon);
 }

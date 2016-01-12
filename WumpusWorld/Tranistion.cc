@@ -20,7 +20,7 @@ Transition::Transition(State state, Action action)
 }
 
 
-void Transition::FinishTransitionInformation(int _reward, State state)
+void Transition::CompleteTransitionInformation(int _reward, State state)
 {
 	reward = _reward;
 	resultantState = state;

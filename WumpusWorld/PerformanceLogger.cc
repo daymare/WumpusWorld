@@ -22,8 +22,10 @@
 */
 PerformanceLogger::PerformanceLogger()
 {
-	performanceFilepath = DEFAULT_PERFORMANCE_LOG_FILEPATH;
-	summaryFilepath = DEFAULT_SUMMARY_LOG_FILEPATH;
+	PerformanceLogger(
+		DEFAULT_SUMMARY_LOG_FILEPATH, 
+		DEFAULT_PERFORMANCE_LOG_FILEPATH
+		);
 }
 
 /*
@@ -41,7 +43,10 @@ PerformanceLogger::PerformanceLogger()
 */
 PerformanceLogger::PerformanceLogger(string _summaryFilepath)
 {
-
+	PerformanceLogger(
+		_summaryFilepath,
+		DEFAULT_PERFORMANCE_LOG_FILEPATH
+		);
 }
 
 /*
@@ -56,7 +61,10 @@ PerformanceLogger::PerformanceLogger(string _summaryFilepath)
 		TODO test.
 
 */
-PerformanceLogger::PerformanceLogger(string _summaryFilepath, string _performanceFilepath)
+PerformanceLogger::PerformanceLogger(
+	string _summaryFilepath, 
+	string _performanceFilepath
+	)
 {
 	// summary file
 	summaryFilepath = _summaryFilepath;
@@ -151,7 +159,11 @@ void PerformanceLogger::FinishLogging()
 		TODO test.
 
 */
-void PerformanceLogger::AddGame(int gameTime, int score, int numMoves)
+void PerformanceLogger::AddGame(
+	int gameTime, 
+	int score, 
+	int numMoves
+	)
 {
-
+	performanceFile << to_string(score) + ", " + to_string(numMoves) + ", " + to_string(gameTime);
 }

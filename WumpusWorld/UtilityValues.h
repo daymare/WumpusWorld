@@ -56,6 +56,7 @@ public:
 	double* GetStartPtr();
 	double GetUtilityValue(UtilityCoordinate coordinate);
 	void SetUtilityValue(UtilityCoordinate coordinate, double value);
+	void SetAllUtilityValues(double value);
 
 	
 };
