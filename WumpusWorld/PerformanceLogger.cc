@@ -23,28 +23,6 @@
 PerformanceLogger::PerformanceLogger()
 {
 	PerformanceLogger(
-		DEFAULT_SUMMARY_LOG_FILEPATH, 
-		DEFAULT_PERFORMANCE_LOG_FILEPATH
-		);
-}
-
-/*
-
-	function: performance logger (specific constructor with regard to the summary file)
-	description: 
-	inputs: N/A
-	outputs: N/A
-	preconditions: N/A
-	postconditions: N/A
-	remarks:
-		TODO write definition.
-		TODO test.
-
-*/
-PerformanceLogger::PerformanceLogger(string _summaryFilepath)
-{
-	PerformanceLogger(
-		_summaryFilepath,
 		DEFAULT_PERFORMANCE_LOG_FILEPATH
 		);
 }
@@ -62,23 +40,15 @@ PerformanceLogger::PerformanceLogger(string _summaryFilepath)
 
 */
 PerformanceLogger::PerformanceLogger(
-	string _summaryFilepath, 
 	string _performanceFilepath
 	)
 {
-	// summary file
-	summaryFilepath = _summaryFilepath;
-	summaryFile.open(summaryFilepath);
-
 	// performance file
 	performanceFilepath = _performanceFilepath;
 	performanceFile.open(performanceFilepath);
 
 	// variables
-	gamesSinceLastLog = 0;
-	totalGameTime = 0;
-	numGames = 0;
-	sumGameScores = 0;
+	sumScoresSinceLastLog = 0;
 }
 
 /*
@@ -95,55 +65,7 @@ PerformanceLogger::PerformanceLogger(
 */
 PerformanceLogger::~PerformanceLogger()
 {
-	summaryFile.close();
 	performanceFile.close();
-}
-
-/*
-
-	function: print
-	description: prints a message to the summary file
-	inputs: message to print
-	outputs: N/A
-	preconditions: N/A
-	postconditions: N/A
-	remarks:
-		TODO test.
-
-*/
-void PerformanceLogger::Print(string message)
-{
-	summaryFile << message;
-}
-
-/*
-
-	function: finish logging
-	description: finishes a logging session for a given agent.
-		prints the summary for the agents performance in the summary file.
-	inputs: N/A
-	outputs: N/A
-	preconditions: N/A
-	postconditions: N/A
-	remarks:
-		TODO test.
-
-*/
-void PerformanceLogger::FinishLogging()
-{
-	double averageScore = (double)sumGameScores / (double)numGames;
-
-	// total game time
-	summaryFile << "Total game time in milliseconds:\n";
-	summaryFile << totalGameTime + "\n";
-
-	// total games
-	summaryFile << "Total number of games:\n";
-	summaryFile << numGames + "\n";
-
-	// average game score
-	summaryFile << "Average game score:\n";
-	summaryFile << to_string(averageScore) + "\n";
 }
 
 /*
@@ -159,11 +81,18 @@ void PerformanceLogger::FinishLogging()
 		TODO test.
 
 */
-void PerformanceLogger::AddGame(
-	int gameTime, 
-	int score, 
-	int numMoves
-	)
+void PerformanceLogger::AddGame (int score, int gameNumber)
 {
-	performanceFile << to_string(score) + ", " + to_string(numMoves) + ", " + to_string(gameTime);
+	sumScoresSinceLastLog += score;
+	
+	// log the average score every so often
+	if (gameNumber % GAMES_PER_LOG == 0)
+	{
+		int avgScore = sumScoresSinceLastLog / GAMES_PER_LOG;
+
+		performanceFile << to_string(gameNumber) + ", " + to_string(avgScore) + "\n";
+
+		sumScoresSinceLastLog = 0;
+	}
+	
 }

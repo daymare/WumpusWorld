@@ -63,6 +63,8 @@ public:
 	void IncrementT();
 	Action GetPI(State state);
 	Action GetPI(State state, double epsilon); // solves Pi^... didn't want to make a whole new class for Pi^.
+
+	int GetT();
 };
 
 

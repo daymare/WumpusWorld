@@ -267,7 +267,15 @@ double QHat::GetValue(State state, Action action)
 	coordinate.action = action;
 	coordinate.state = state;
 
-	return utility.GetUtilityValue(coordinate);
+	// check for infinite actions of nothing
+	if (coordinate.state.IsFacingWall() && coordinate.action == Action_GoForward)
+	{
+		return -999999;
+	}
+	else
+	{
+		return utility.GetUtilityValue(coordinate);
+	}
 }
 
 void QHat::SetValue(State state, Action action, double value)

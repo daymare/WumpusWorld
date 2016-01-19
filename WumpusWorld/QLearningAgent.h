@@ -10,6 +10,8 @@
 #define Q_LEARNING_AGENT_H
 
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 #include "Percept.h"
 #include "Agent.h"
@@ -25,7 +27,7 @@ using namespace std;
 
 
 // uncomment if we want a new QHat file to be generated.
-// #define NEW_QHAT_DESIRED
+//#define NEW_QHAT_DESIRED
 
 class QLearningAgent : public Agent
 {

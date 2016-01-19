@@ -28,11 +28,11 @@ int main (int argc, char *argv[])
 	bool worldSet = false;
 
 	// tell cout to suppress output to speed up training.
-	cout.setstate(ios_base::failbit);
+	//cout.setstate(ios_base::failbit);
 
 	// set training parameters
 	worldSize = 2;
-	numTrials = 3000;
+	numTrials = 100000;
 	numTries = 1;
 	seedSet = false;
 	worldSet = false;

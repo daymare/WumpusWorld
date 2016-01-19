@@ -18,7 +18,7 @@ using namespace std;
 
 #ifdef NEW_QHAT_DESIRED
 // make a new qhat utility list
-QHat *QLearningAgent::Q = new QHat(0.000001, 0.8);
+QHat *QLearningAgent::Q = new QHat(0.1, 1);
 #else
 // load the utility list from the file
 QHat *QLearningAgent::Q = new QHat();
@@ -64,9 +64,6 @@ QLearningAgent::QLearningAgent()
 */
 QLearningAgent::~QLearningAgent()
 {
-	// stop logging
-	log->FinishLogging();
-
 	delete Q;
 } 
 
@@ -168,7 +165,7 @@ void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 	Q->AddGame(transitionList);
 
 	// send game information to performance logger
-	log->AddGame(0, score, numRounds);
+	//log->AddGame(score, Q->GetT());
 }
 
 /*

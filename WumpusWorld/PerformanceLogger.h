@@ -10,10 +10,9 @@
 #ifndef PERFORMANCE_LOGGER_H
 #define PERFORMANCE_LOGGER_H
 
-#define DEFAULT_PERFORMANCE_LOG_FILEPATH "performance.txt"
-#define DEFAULT_SUMMARY_LOG_FILEPATH "performanceSummary.txt"
+#define DEFAULT_PERFORMANCE_LOG_FILEPATH "performance.dat"
 
-#define GAMES_PER_LOG 2
+#define GAMES_PER_LOG 500
 
 #include <string>
 #include <iostream>
@@ -24,28 +23,18 @@
 class PerformanceLogger
 {
 private:
-	int gamesSinceLastLog;
-	int totalGameTime;
-	int numGames;
-	int sumGameScores;
+	int sumScoresSinceLastLog;
 
 	string performanceFilepath;
 	ofstream performanceFile;
-	string summaryFilepath;
-	ofstream summaryFile;
 
 public:
 
 	PerformanceLogger();
-	PerformanceLogger(string _summaryFilepath);
-	PerformanceLogger(string _summaryFilepath, string _performanceFilepath);
+	PerformanceLogger(string _performanceFilepath);
 	~PerformanceLogger();
 
-	void Print(string message);
-
-	void FinishLogging();
-
-	void AddGame(int gameTime, int score, int numMoves);
+	void AddGame(int score, int gameNumber);
 
 };
 
