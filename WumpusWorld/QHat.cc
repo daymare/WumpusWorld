@@ -267,15 +267,7 @@ double QHat::GetValue(State state, Action action)
 	coordinate.action = action;
 	coordinate.state = state;
 
-	// check for infinite actions of nothing
-	if (coordinate.state.IsFacingWall() && coordinate.action == Action_GoForward)
-	{
-		return -999999;
-	}
-	else
-	{
-		return utility.GetUtilityValue(coordinate);
-	}
+	return utility.GetUtilityValue(coordinate);
 }
 
 void QHat::SetValue(State state, Action action, double value)
@@ -290,7 +282,7 @@ void QHat::SetValue(State state, Action action, double value)
 /*
 
 	function: add game
-	description: adds a games information too the qhat function and increments t.
+	description: adds game information to the qhat function and increments t.
 	inputs: list of transitions that describe the game.
 	outputs: N/A
 	preconditions: N/A
@@ -301,7 +293,7 @@ void QHat::SetValue(State state, Action action, double value)
 */
 void QHat::AddGame(vector<Transition> transitions)
 {
-	for (int i = ((int)transitions.size())-1; i >= 0 ; i--)
+	for (int i = ((int)transitions.size()) - 1; i >= 0 ; i--)
 	{
 		Update (transitions.at(i));
 	}

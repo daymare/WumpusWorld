@@ -52,8 +52,11 @@ Action Agent::Process (Percept& percept)
 }
 
 void Agent::GameOver (int score, AgentStatus agentStatus)
-{}
+{
+	score = score;
+	agentStatus = agentStatus;
+}
 
-void Agent::Finish()
+void Agent::Finish(void)
 {}
 

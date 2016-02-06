@@ -77,7 +77,11 @@ UtilityValues::UtilityValues()
 */
 int UtilityValues::GetSize()
 {
-	return sizeof(utilityValues) / sizeof(double);
+	int size = -1;
+
+	size = sizeof(utilityValues) / sizeof(double);
+
+	return size;
 }
 
 /*
@@ -208,7 +212,24 @@ double UtilityValues::GetUtilityValue(UtilityCoordinate coordinate)
 	bool history21 = coordinate.state.GetHistory(2, 1);
 	bool history22 = coordinate.state.GetHistory(2, 2);
 
-	value = utilityValues[x - 1][y - 1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+	// check for infinite loops of running into walls.
+	// need to check for infinite grabs and climbs.
+	// can I change update to learn this? ask James.
+	if (coordinate.state.IsFacingWall() && action == Action_GoForward
+		|| ((x != 1 || y != 1) && action == Action_Climb)
+		|| (arrow == false && action == Action_Shoot)
+		|| (glitter == false && action == Action_Grab)
+		)
+	{
+		// set the value to essentially negative infinity.
+		value = -999999;
+	}
+	else
+	{
+		// get the table lookup
+		value = utilityValues[x - 1][y - 1][dir][status][arrow][gold][stench][breeze][glitter][scream][action][history11][history12][history21][history22];
+	}
+	
 
 	return value;
 }

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -12,12 +8,6 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\Log">
-      <UniqueIdentifier>{4bdd1e9d-cda8-498d-a67f-f9a694a736e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Agent">
-      <UniqueIdentifier>{cc7b0c89-1c1f-4d79-b74a-c7098df7506a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Agent">
       <UniqueIdentifier>{3eabeaca-5c4c-412b-944a-85df654af8fa}</UniqueIdentifier>
@@ -30,6 +20,16 @@
     </Filter>
     <Filter Include="Header Files\WorldData">
       <UniqueIdentifier>{d08245c3-d687-499a-ad83-2ef043f2620c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{4bdd1e9d-cda8-498d-a67f-f9a694a736e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agent">
+      <UniqueIdentifier>{cc7b0c89-1c1f-4d79-b74a-c7098df7506a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Agent\QLearningAgent">
       <UniqueIdentifier>{d29e010f-53c2-45d1-a31f-006b9c744134}</UniqueIdentifier>
@@ -153,6 +153,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="DefaultLog.dat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="performance.dat">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

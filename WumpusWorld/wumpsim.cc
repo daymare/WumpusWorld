@@ -13,6 +13,7 @@
 #include "RandomAgent.h"
 #include "QLearningAgent.h"
 #include "wumpsim.h"
+#include "PerformanceLogger.h"
 
 
 using namespace std;
@@ -28,12 +29,12 @@ int main (int argc, char *argv[])
 	bool worldSet = false;
 
 	// tell cout to suppress output to speed up training.
-	//cout.setstate(ios_base::failbit);
+	cout.setstate(ios_base::failbit);
 
 	// set training parameters
 	worldSize = 2;
-	numTrials = 100000;
-	numTries = 1;
+	numTrials = 1;
+	numTries = 100000;
 	seedSet = false;
 	worldSet = false;
 
@@ -48,7 +49,7 @@ int main (int argc, char *argv[])
 	cout << "Welcome to the Wumpus World Simulator v";
         cout << WUMPSIM_VERSION << ".  Happy hunting!" << endl << endl;
 
-	// Run trials
+	// Run trials 
 	WumpusWorld* wumpusWorld;
 	Agent* agent;
 	Percept percept;
@@ -59,10 +60,14 @@ int main (int argc, char *argv[])
 	double averageScore;
 	int numMoves;
 
+	PerformanceLogger* log = new PerformanceLogger();
+
 	// print a loading indication.
 	printf("loading from file...\n");
 
+	// set the desired agent
 	agent = new QLearningAgent();
+	//agent = new RandomAgent();
 
 	printf("Done loading\n");
 	printf("Starting training\n");
@@ -87,6 +92,12 @@ int main (int argc, char *argv[])
 
 		for (int tries = 1; tries <= numTries; tries++)
 		{
+			// print an indication every 1000 tries
+			if (tries % 1000 == 0)
+			{
+				printf("try: %d\n", tries);
+			}
+
 			wumpusWorld->Initialize();
 			agent->Initialize ();
 			numMoves = 0;
@@ -106,6 +117,10 @@ int main (int argc, char *argv[])
 			agent->GameOver (score, wumpusWorld->GetAgentStatus()); // need to feed the agent it's status info at the end of the game
 			trialScore = trialScore + score;
 			cout << "Trial " << trial << ", Try " << tries << " complete: Score = " << score << endl << endl;
+
+			// log the performance of the agent
+			log->AddGame(score, tries);
+
 		}
 		delete wumpusWorld;
 		averageScore = ((float) trialScore) / ((float) numTries);
@@ -116,6 +131,10 @@ int main (int argc, char *argv[])
 	printf("Saving to file\n");
 	agent->Finish();
 	delete agent;
+
+	// finishing performance logging.
+	log->~PerformanceLogger();
+//	delete log;
 
 	averageScore = ((double) totalScore) / ((double) (numTrials * numTries));
 	cout << "All trials completed: Average score for all trials = " << averageScore << endl;

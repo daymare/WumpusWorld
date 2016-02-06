@@ -16,6 +16,7 @@ using namespace std;
 
 // Initialize Qhat
 
+#define NEW_QHAT_DESIRED
 #ifdef NEW_QHAT_DESIRED
 // make a new qhat utility list
 QHat *QLearningAgent::Q = new QHat(0.1, 1);
@@ -23,9 +24,6 @@ QHat *QLearningAgent::Q = new QHat(0.1, 1);
 // load the utility list from the file
 QHat *QLearningAgent::Q = new QHat();
 #endif
-
-
-PerformanceLogger *QLearningAgent::log = new PerformanceLogger();
 
 /*
 
@@ -163,9 +161,6 @@ void QLearningAgent::GameOver(int score, AgentStatus agentStatus)
 
 	// update Q^ with all of the transition information received from last game
 	Q->AddGame(transitionList);
-
-	// send game information to performance logger
-	//log->AddGame(score, Q->GetT());
 }
 
 /*

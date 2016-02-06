@@ -1,0 +1,10 @@
+
+Summary: Performance Logger Rework
+
+Description:
+Redesigned Performance Logger. New goal is just to output points so that we can make an average score over time graph.
+Removed finish method in performance logger.
+removed print method in performance logger.
+(basically stripped anything that does not pertain to the new goal.)
+
+Changed add game in performance logger now takes the score of a game and its game number. adds up the scores to get a sum and then averages and prints to the file.

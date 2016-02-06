@@ -89,10 +89,12 @@ void PerformanceLogger::AddGame (int score, int gameNumber)
 	if (gameNumber % GAMES_PER_LOG == 0)
 	{
 		int avgScore = sumScoresSinceLastLog / GAMES_PER_LOG;
+		string output;
 
-		performanceFile << to_string(gameNumber) + ", " + to_string(avgScore) + "\n";
+		 output =  to_string(gameNumber) + ", " + to_string(avgScore) + "\n";
+
+		 performanceFile << output;
 
 		sumScoresSinceLastLog = 0;
 	}
-	
 }
